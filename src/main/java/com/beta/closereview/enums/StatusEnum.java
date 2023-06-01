@@ -2,9 +2,10 @@ package com.beta.closereview.enums;
 
 public enum StatusEnum {
     OK(0, "ok"),
-    // login status
+    // user status
     USER_NOT_FOUND(0x100001, "user not found"),
     EMAIL_OR_PASSWORD_INCORRECT(0x100002, "mail or password is incorrect");
+
 
     final Integer code;
     final String desc;

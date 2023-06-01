@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Close Review-Login</title>
+    <link rel="shortcut icon" href="https://htmlpage.cn/favicon.png">
+    <link rel="stylesheet" href="/css/style-login.css">
+</head>
+
+<body>
+<link rel="stylesheet" href="/css/min-login.css"/>
+<header id="nav-1" role="banner" class="c1301">
+    <div class="header-inner">
+        <h1><a href="https://htmlpage.cn/"></a></h1><a href="https://htmlpage.cn/download" id="iayjv" class="c1337">Close
+        Review</a>
+        <nav role="navigation">
+            <ul>
+                <li><a href="/user/console" class="active">Profile</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/user/logout">Log out</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="container"></div>
+</header>
+<div id="div_login" class="panel">
+    <div class="big-title"></div>
+
+    <form id="user-info" action="/user/register" method="post">
+
+    <div id="user_name" class="c6786">Username</div>
+    <div id="name_input" class="c3339">
+        <input class="text-input" name="username" type="text">
+    </div>
+
+    <div id="user_email" class="c6786">Email</div>
+    <div id="email_input" class="c3339">
+        <input class="text-input" name="email" type="text">
+    </div>
+
+    <div class="c6786">Password</div>
+    <div id="password_input" class="c3447">
+        <input class="text-input" name="password" type="password">
+    </div>
+
+    <div id="user_organization" class="c6786">Organization</div>
+    <div id="organization_input" class="c3339">
+        <select class="text-input" name="organization">
+            <option th:value="${org.getId()}" th:each="org: ${organizations}" th:text="${org.getName()}"></option>
+        </select>
+    </div>
+
+    <div class="cell">
+        <div id="signup" class="c3598">
+            <input class="button" value="Sign up" name="sign up" type="submit">
+        </div>
+    </div>
+    </form>
+</div>
+
+<div style="padding: 0;margin:0;list-style: none; text-align: center; position: fixed; bottom: 50px; width: 100%">
+    <br><a href="https://beian.miit.gov.cn">XXXXXXXXX</a>
+</div>
+
+</body>
+</html>

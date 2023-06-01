@@ -1,5 +1,6 @@
 package com.beta.closereview.controller;
 
+import com.beta.closereview.dao.Organization;
 import com.beta.closereview.dao.Submission;
 import com.beta.closereview.dao.User;
 import com.beta.closereview.enums.StatusEnum;
@@ -38,6 +39,9 @@ public class UserController {
 
     @GetMapping("/login")
     public String login(HttpServletRequest request, HttpSession session, ModelMap map) throws IOException {
+        if (session.getAttribute("user") != null)
+            return console(map, session);
+
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
@@ -53,6 +57,7 @@ public class UserController {
 
     @GetMapping("/console")
     public String console(ModelMap map, HttpSession session){
+
         User user = (User) session.getAttribute("user");
         user = userService.getUserDetail(user.getEmail());
         List<Submission> submissions = submissionService.getSubmissions(user.getId());
@@ -70,5 +75,30 @@ public class UserController {
     public String logout(HttpSession session){
         session.setAttribute("user", null);
         return "../static/login";
+    }
+
+    /**
+     * 用于加载含有thymeleaf的注册页面
+     * @param map
+     * @return
+     */
+    @GetMapping("/register")
+    public String registerPage(ModelMap map){
+        List<Organization> organizations = organizationService.getOrganizations();
+        map.put("organizations", organizations);
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String register(HttpServletRequest request, HttpSession session, ModelMap map){
+        User user = new User();
+        user.setEmail(request.getParameter("email"));
+        user.setPassword(request.getParameter("password"));
+        user.setOrganization(Integer.valueOf(request.getParameter("organization")));
+        user.setUsername(request.getParameter("username"));
+
+        userService.register(user);
+        session.setAttribute("user", user);
+        return console(map, session);
     }
 }

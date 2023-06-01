@@ -17,4 +17,9 @@ public class SubmissionServiceImpl implements SubmissionService {
     public List<Submission> getSubmissions(Integer uid) {
         return submissionMapper.getSubmissionsOfUid(uid);
     }
+
+    @Override
+    public Integer addSubmission(Submission submission) {
+        return submissionMapper.insertSelective(submission);
+    }
 }

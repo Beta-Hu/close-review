@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface SubmissionService {
     List<Submission> getSubmissions(Integer uid);
+
+    Integer addSubmission(Submission submission);
 }

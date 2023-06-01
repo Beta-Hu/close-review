@@ -2,6 +2,8 @@ package com.beta.closereview.mapper;
 
 import com.beta.closereview.dao.Organization;
 
+import java.util.List;
+
 public interface OrganizationMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -16,4 +18,6 @@ public interface OrganizationMapper {
     int updateByPrimaryKey(Organization record);
 
     String getOrganizationNameById(Integer oid);
+
+    List<Organization> getOrganizations();
 }

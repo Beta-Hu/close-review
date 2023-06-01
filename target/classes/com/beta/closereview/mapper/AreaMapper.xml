@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.beta.closereview.mapper.AreaMapper" >
+  <resultMap id="BaseResultMap" type="com.beta.closereview.dao.Area" >
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="conference_id" property="conferenceId" jdbcType="INTEGER" />
+    <result column="area_chair" property="areaChair" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insert" parameterType="com.beta.closereview.dao.Area" >
+    insert into cr_area (name, conference_id, area_chair
+      )
+    values (#{name,jdbcType=VARCHAR}, #{conferenceId,jdbcType=INTEGER}, #{areaChair,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.beta.closereview.dao.Area" >
+    insert into cr_area
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="conferenceId != null" >
+        conference_id,
+      </if>
+      <if test="areaChair != null" >
+        area_chair,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="conferenceId != null" >
+        #{conferenceId,jdbcType=INTEGER},
+      </if>
+      <if test="areaChair != null" >
+        #{areaChair,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>
