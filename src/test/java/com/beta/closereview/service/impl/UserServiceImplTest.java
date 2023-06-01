@@ -2,6 +2,7 @@ package com.beta.closereview.service.impl;
 
 import com.beta.closereview.SuperCloseReviewTest;
 import com.beta.closereview.dao.Submission;
+import com.beta.closereview.service.SubmissionService;
 import com.beta.closereview.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserServiceImplTest extends SuperCloseReviewTest {
     @Autowired
     private UserService userService;
+    @Autowired
+    private SubmissionService submissionService;
 
     @Test
     void register() {
@@ -32,7 +35,7 @@ class UserServiceImplTest extends SuperCloseReviewTest {
 
     @Test
     void getSubmissions() {
-        List<Submission> submissions = userService.getSubmissions(100);
+        List<Submission> submissions = submissionService.getSubmissions(100);
         for (Submission submission : submissions) {
             System.out.println(submission);
         }

@@ -14,4 +14,6 @@ public interface OrganizationMapper {
     int updateByPrimaryKeySelective(Organization record);
 
     int updateByPrimaryKey(Organization record);
+
+    String getOrganizationNameById(Integer oid);
 }

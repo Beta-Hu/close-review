@@ -13,6 +13,4 @@ public interface UserService {
     void logout(Integer uid);
 
     User getUserDetail(String email);
-
-    List<Submission> getSubmissions(Integer uid);
 }

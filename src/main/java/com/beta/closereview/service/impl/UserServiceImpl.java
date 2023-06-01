@@ -15,8 +15,6 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
-    @Autowired
-    private SubmissionMapper submissionMapper;
 
     @Override
     public void register(User user) {
@@ -42,10 +40,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserDetail(String email){
         return userMapper.selectByEmail(email);
-    }
-
-    @Override
-    public List<Submission> getSubmissions(Integer uid) {
-        return submissionMapper.getSubmissionsOfUid(uid);
     }
 }

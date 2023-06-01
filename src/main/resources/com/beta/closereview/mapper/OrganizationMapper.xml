@@ -16,7 +16,10 @@
     from cr_organization
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="getOrganizationNameById" resultType="java.lang.String">
+      select name from cr_organization where id=#{oid}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from cr_organization
     where id = #{id,jdbcType=INTEGER}
   </delete>

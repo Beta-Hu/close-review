@@ -1,7 +1,10 @@
 package com.beta.closereview.controller;
 
+import com.beta.closereview.dao.Submission;
 import com.beta.closereview.dao.User;
 import com.beta.closereview.enums.StatusEnum;
+import com.beta.closereview.service.OrganizationService;
+import com.beta.closereview.service.SubmissionService;
 import com.beta.closereview.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -27,6 +31,10 @@ import java.util.Objects;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private SubmissionService submissionService;
+    @Autowired
+    private OrganizationService organizationService;
 
     @GetMapping("/login")
     public String login(HttpServletRequest request, HttpSession session, ModelMap map) throws IOException {
@@ -37,7 +45,7 @@ public class UserController {
             User user = new User();
             user.setEmail(email);
             session.setAttribute("user", user);
-            return "profile";
+            return console(map, session);
         } else{
             return "../static/login";
         }
@@ -47,12 +55,20 @@ public class UserController {
     public String console(ModelMap map, HttpSession session){
         User user = (User) session.getAttribute("user");
         user = userService.getUserDetail(user.getEmail());
+        List<Submission> submissions = submissionService.getSubmissions(user.getId());
+        String organizationName = organizationService.getOrganizationNameById(user.getOrganization());
 
-
-        map.put("userName", user.getUsername());
+        map.put("username", user.getUsername());
         map.put("email", user.getEmail());
-        map.put("organization", user.getOrganization());
-//        map.put("publications", )
+        map.put("organization", organizationName);
+        map.put("publications", submissions);
+        map.put("coAuthors", "");
         return "profile";
+    }
+
+    @GetMapping("logout")
+    public String logout(HttpSession session){
+        session.setAttribute("user", null);
+        return "../static/login";
     }
 }
