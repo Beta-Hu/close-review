@@ -6,7 +6,7 @@
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="organization" property="organization" jdbcType="VARCHAR" />
+    <result column="organization" property="organization" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, username, password, email, organization
@@ -17,11 +17,11 @@
     from cr_user
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByEmail" resultType="com.beta.closereview.dao.User">
-    select * from cr_user
-    where email=#{email}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="selectByEmail" resultType="com.beta.closereview.dao.User">
+      select * from cr_user
+      where email = #{email, jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from cr_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
@@ -29,7 +29,7 @@
     insert into cr_user (id, username, password, 
       email, organization)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{organization,jdbcType=VARCHAR})
+      #{email,jdbcType=VARCHAR}, #{organization,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.beta.closereview.dao.User" >
     insert into cr_user
@@ -64,7 +64,7 @@
         #{email,jdbcType=VARCHAR},
       </if>
       <if test="organization != null" >
-        #{organization,jdbcType=VARCHAR},
+        #{organization,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -81,7 +81,7 @@
         email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="organization != null" >
-        organization = #{organization,jdbcType=VARCHAR},
+        organization = #{organization,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -91,7 +91,7 @@
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      organization = #{organization,jdbcType=VARCHAR}
+      organization = #{organization,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
