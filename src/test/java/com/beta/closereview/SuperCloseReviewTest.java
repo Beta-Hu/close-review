@@ -9,6 +9,5 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 @Slf4j
 public class SuperCloseReviewTest {
-    public void function1(int a, int b){}
 
 }

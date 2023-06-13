@@ -41,5 +41,6 @@ create table if not exists cr_conference(
     id int(8) not null auto_increment primary key,
     name varchar(64) not null unique,
     acronym varchar(16) default null,
-    year int(4) not null
+    year int(4) not null,
+    status int(4) not null default 0    # 0-active, 1-under review, 2-under reply, 3-final decision(inactivate)
 );

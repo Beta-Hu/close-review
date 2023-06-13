@@ -1,0 +1,189 @@
+.main {
+    padding: 0 30% 0 30%;
+}
+.head {
+    align-items: center;
+    justify-content: space-between;
+    height: 5%;
+    display: flex !important;
+    background-color: rgba(0, 135, 189, 1);
+}
+.logo {
+    height: 64px !important;
+    margin: 10px 0 10px 0;
+    padding: 0 0 0 10px;
+}
+.profile {
+    position: static;
+    float: right;
+    margin: 0 5% 0 0;
+    font-size: 24px;
+    color: rgba(237, 237, 237, 1);
+    text-decoration: none;
+}
+.divlogo {
+}
+.divbutton {
+    justify-content: space-between;
+    display: flex !important;
+    align-items: center;
+    width: 30%;
+}
+.sign {
+    font-size: 24px;
+    margin: 0 20% 0 0;
+    color: rgba(237, 237, 237, 1);
+    text-decoration: none;
+}
+.detail {
+}
+.bigfont {
+    font-size: 32px;
+    font-weight: bold;
+    display: block !important;
+    padding: 5px 0 0 0;
+}
+.smallfont {
+    font-size: 20px;
+    display: block !important;
+    padding: 10px 0 0 0;
+}
+.bigholder {
+    height: 32px !important;
+    border-bottom: rgba(209, 209, 209, 1) solid 1px !important;
+}
+.smallholder {
+    height: 16px !important;
+}
+.divsign {
+    padding: 0 20% 0 20%;
+}
+.textinput {
+    border: rgba(219, 219, 219, 1) solid 2px;
+    border-radius: 10px 10px 10px 10px;
+    height: 48px !important;
+    width: 100%;
+    margin: 2% 0 0 0;
+    text-indent: 20px;
+    font-size: 20px;
+    vertical-align: middle;
+}
+.button {
+    height: 48px !important;
+    width: 40%;
+    border-radius: 10px 10px 10px 10px;
+    font-size: 20px;
+    border: rgba(237, 237, 237, 1) none 2px;
+}
+.divbuttonlist {
+    height: 36px !important;
+    justify-content: space-between;
+    display: flex !important;
+}
+.item {
+    vertical-align: middle;
+    text-overflow: ellipsis;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    white-space: nowrap;
+    font-size: 20px;
+    width: 100%;
+    height: 24px !important;
+    border-bottom: rgba(237, 237, 237, 1) solid 1px !important;
+    padding: 5px 0 5px 0;
+}
+.item {
+    vertical-align: middle;
+    text-overflow: ellipsis;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    white-space: nowrap;
+    font-size: 20px;
+    width: 100%;
+    height: 24px !important;
+    border-bottom: rgba(237, 237, 237, 1) solid 1px !important;
+    padding: 5px 0 5px 0;
+}
+.smallbutton {
+    display: block !important;
+    height: 24px !important;
+    width: 24px !important;
+    background-image: url("../img/search.png");
+    background-size: 20px 20px;
+    border-radius: 5px 5px 5px 5px;
+}
+.textsearch {
+    height: 24px !important;
+    display: block !important;
+    width: 100%;
+    border: rgba(237, 237, 237, 1) solid 2px;
+    border-radius: 5px 5px 5px 5px;
+    margin: 0 5px 0 0;
+    text-indent: 12px;
+    font-size: 16px;
+}
+.horizonalbox {
+    justify-content: space-between;
+    display: flex !important;
+    align-items: center;
+}
+.unsortedlist {
+    vertical-align: middle;
+    text-overflow: ellipsis;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+.smallhref {
+    margin: 0 16px 0 0;
+    display: block !important;
+}
+.tinyfont {
+    padding: 10px 0 0 0;
+    display: block !important;
+    font-size: 12px;
+    color: rgba(145, 145, 145, 1);
+}
+.textsubmission {
+    height: 32px !important;
+    overflow-x: scroll;
+    text-indent: 12px;
+    font-size: 16px;
+    vertical-align: middle;
+    border-radius: 5px 5px 5px 5px;
+    border: rgba(237, 237, 237, 1) solid 2px;
+    width: 99%;
+}
+.textsubmission::-webkit-scrollbar {
+    display: none;
+}
+.texttiny {
+    margin: 0 5px 0 0;
+    display: block !important;
+    text-indent: 12px;
+    font-size: 12px;
+    border: rgba(237, 237, 237, 1) solid 1px;
+    border-radius: 5px 5px 5px 5px;
+    height: 20px !important;
+    width: 50%;
+}
+.textabstract::-webkit-scrollbar {
+    display: none;
+}
+.textarea {
+    width: 99%;
+    border: rgba(237, 237, 237, 1) solid 1px;
+    border-radius: 5px 5px 5px 5px;
+    display: block !important;
+    height: 96px !important;
+    font-size: 12px;
+    text-indent: 12px;
+    text-align: justify;
+}
+.submitbutton {
+    width: 64px !important;
+    display: block !important;
+    border-radius: 5px 5px 5px 5px;
+    height: 32px !important;
+    border: rgba(237, 237, 237, 1) none 2px;
+}
