@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.beta.closereview.mapper.ReviewMapper" >
+  <resultMap id="BaseResultMap" type="com.beta.closereview.dao.Review" >
+    <id column="reviewer" property="reviewer" jdbcType="INTEGER" />
+    <id column="submission" property="submission" jdbcType="INTEGER" />
+    <result column="initial_score" property="initialScore" jdbcType="INTEGER" />
+    <result column="confidence" property="confidence" jdbcType="INTEGER" />
+    <result column="final_score" property="finalScore" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.beta.closereview.dao.Review" extends="BaseResultMap" >
+    <result column="initial_comment" property="initialComment" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    reviewer, submission, initial_score, confidence, final_score
+  </sql>
+  <sql id="Blob_Column_List" >
+    initial_comment
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cr_review
+    where reviewer = #{reviewer,jdbcType=INTEGER}
+      and submission = #{submission,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from cr_review
+    where reviewer = #{reviewer,jdbcType=INTEGER}
+      and submission = #{submission,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.beta.closereview.dao.Review" >
+    insert into cr_review (reviewer, submission, initial_score, 
+      confidence, final_score, initial_comment
+      )
+    values (#{reviewer,jdbcType=INTEGER}, #{submission,jdbcType=INTEGER}, #{initialScore,jdbcType=INTEGER}, 
+      #{confidence,jdbcType=INTEGER}, #{finalScore,jdbcType=INTEGER}, #{initialComment,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.beta.closereview.dao.Review" >
+    insert into cr_review
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="reviewer != null" >
+        reviewer,
+      </if>
+      <if test="submission != null" >
+        submission,
+      </if>
+      <if test="initialScore != null" >
+        initial_score,
+      </if>
+      <if test="confidence != null" >
+        confidence,
+      </if>
+      <if test="finalScore != null" >
+        final_score,
+      </if>
+      <if test="initialComment != null" >
+        initial_comment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="reviewer != null" >
+        #{reviewer,jdbcType=INTEGER},
+      </if>
+      <if test="submission != null" >
+        #{submission,jdbcType=INTEGER},
+      </if>
+      <if test="initialScore != null" >
+        #{initialScore,jdbcType=INTEGER},
+      </if>
+      <if test="confidence != null" >
+        #{confidence,jdbcType=INTEGER},
+      </if>
+      <if test="finalScore != null" >
+        #{finalScore,jdbcType=INTEGER},
+      </if>
+      <if test="initialComment != null" >
+        #{initialComment,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.beta.closereview.dao.Review" >
+    update cr_review
+    <set >
+      <if test="initialScore != null" >
+        initial_score = #{initialScore,jdbcType=INTEGER},
+      </if>
+      <if test="confidence != null" >
+        confidence = #{confidence,jdbcType=INTEGER},
+      </if>
+      <if test="finalScore != null" >
+        final_score = #{finalScore,jdbcType=INTEGER},
+      </if>
+      <if test="initialComment != null" >
+        initial_comment = #{initialComment,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where reviewer = #{reviewer,jdbcType=INTEGER}
+      and submission = #{submission,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.beta.closereview.dao.Review" >
+    update cr_review
+    set initial_score = #{initialScore,jdbcType=INTEGER},
+      confidence = #{confidence,jdbcType=INTEGER},
+      final_score = #{finalScore,jdbcType=INTEGER},
+      initial_comment = #{initialComment,jdbcType=LONGVARCHAR}
+    where reviewer = #{reviewer,jdbcType=INTEGER}
+      and submission = #{submission,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.beta.closereview.dao.Review" >
+    update cr_review
+    set initial_score = #{initialScore,jdbcType=INTEGER},
+      confidence = #{confidence,jdbcType=INTEGER},
+      final_score = #{finalScore,jdbcType=INTEGER}
+    where reviewer = #{reviewer,jdbcType=INTEGER}
+      and submission = #{submission,jdbcType=INTEGER}
+  </update>
+</mapper>
