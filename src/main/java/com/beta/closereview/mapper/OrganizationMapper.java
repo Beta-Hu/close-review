@@ -1,6 +1,6 @@
 package com.beta.closereview.mapper;
 
-import com.beta.closereview.dao.Organization;
+import com.beta.closereview.pojo.Organization;
 
 public interface OrganizationMapper {
     int deleteByPrimaryKey(Integer id);

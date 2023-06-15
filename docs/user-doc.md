@@ -52,6 +52,24 @@ email: String
 department: Integer
 ```
 
+#### Response
+###### success
+```json
+{
+  "status": 0,
+  "msg": "success",
+  "data": []
+}
+```
+###### fail
+```json
+{
+  "status": 100005,
+  "msg": "signup failed",
+  "data": []
+}
+```
+
 
 ## 获取已登录的用户
 #### URL
@@ -157,7 +175,7 @@ GET
 ###### fail
 ```json
 {
-  "status": 100001,
+  "status": 100004,
   "msg": "signin failed",
   "data": []
 }

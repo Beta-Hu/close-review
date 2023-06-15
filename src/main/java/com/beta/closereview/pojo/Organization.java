@@ -1,4 +1,4 @@
-package com.beta.closereview.dao;
+package com.beta.closereview.pojo;
 
 import lombok.Data;
 

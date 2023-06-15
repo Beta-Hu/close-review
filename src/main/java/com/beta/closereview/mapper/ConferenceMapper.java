@@ -1,6 +1,8 @@
 package com.beta.closereview.mapper;
 
-import com.beta.closereview.dao.Conference;
+import com.beta.closereview.pojo.Conference;
+
+import java.util.List;
 
 public interface ConferenceMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +16,6 @@ public interface ConferenceMapper {
     int updateByPrimaryKeySelective(Conference record);
 
     int updateByPrimaryKey(Conference record);
+
+    List<Conference> listAllConference();
 }

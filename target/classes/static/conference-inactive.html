@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Conferences</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="main">
+    <div class="head ui-sortable-helper">
+        <div class="divlogo">
+            <img src="img/logo.png" class="logo">
+        </div>
+        <div class="divbutton">
+            <a class="profile" href="profile.html">Profile<br></a>
+            <a class="sign" href="signin.html">Sign in</a>
+        </div>
+    </div>
+    <div class="bigholder"> </div>
+    <div class="smallholder"> </div>
+    <div class="horizonalbox">
+        <input type="text" name="input" class="textsearch">
+        <input type="submit" name="button"  value="" class="smallbutton">
+    </div>
+    <div class="smallholder"> </div>
+    <div class="detail">
+        <span class="bigfont">Accepted List</span>
+        <ul id="accepted-list">
+        </ul>
+    </div>
+    <div class="smallholder">
+    </div>
+</div>
+</body>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/user-status.js"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        var conferenceId = window.location.href.split("=");
+        conferenceId = conferenceId[conferenceId.length - 1];
+        $.ajax({
+            type: "GET",
+            url: "/conference/" + conferenceId,
+            dataType: 'json',
+            async: true,
+            data: {},
+            success: function (data){
+                var status = data["status"];
+                if (status === 0) {
+                    for (var i = 0; i < data["data"].length; i++){
+                        document.getElementById("accepted-list").innerHTML +=
+                            "<li class=\"item\">" +
+                            "<a class='listhref' href='" + window.location.origin + "/submission.html?submissionId=" + data["data"][i]["id"] + " '>" +
+                            data["data"][i]["title"] + "<br><span class='tinyfont'>" + "athor1 author2" + "</span>"
+                            + "</a></li><div class=\"smallholder\"> </div>"
+                    }
+                }
+            },
+            error: function (){
+                alert("load paper detail failed");
+            }
+        });
+    };
+</script>
+
+</html>

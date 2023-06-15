@@ -1,6 +1,9 @@
 package com.beta.closereview.mapper;
 
-import com.beta.closereview.dao.Submission;
+import com.beta.closereview.pojo.Submission;
+import com.beta.closereview.vo.SimplifiedSubmissionVo;
+
+import java.util.List;
 
 public interface SubmissionMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,6 @@ public interface SubmissionMapper {
     int updateByPrimaryKeySelective(Submission record);
 
     int updateByPrimaryKey(Submission record);
+
+    List<SimplifiedSubmissionVo> listAcceptedSubmissions(Integer conferenceId);
 }

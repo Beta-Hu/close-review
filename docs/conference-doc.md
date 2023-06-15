@@ -39,7 +39,7 @@ GET
 ## 列举特定会议的录用结果
 #### URL
 ```
-/conference/{conferenceId}/list
+/conference/{conferenceId}
 ```
 
 #### Method
@@ -61,7 +61,11 @@ conferenceId: Integer
   "data": [{
     "id": 0,
     "title": "xx xxxx xxx",
-    "author": ["xx", "xx", "xx"]
+    "author": [{
+      "username": "xx",
+      "emial": "xxx",
+      "organization": "xxx"
+    }]
   }, {}]
 }
 ```
@@ -77,7 +81,7 @@ conferenceId: Integer
 ## 查看录用文章详情
 #### URL
 ```
-/conference/{conferenceId}/{submissionId}
+/submission/{submissionId}
 ```
 
 #### Method
@@ -105,9 +109,10 @@ submissionId: Integer
     "file": "file://xxx.pdf",
     "supportMaterial": "file://xxx.pdf",
     "conference": "xxxx",
-    "initialComments": [{
+    "comments": [{
       "reviewer": "xx",
       "initialComments": ["xx", "xx"],
+      "rebuttal": ["xx", "xx"],
       "initialScore": 0.0,
       "finalComments": "xxx",
       "finalScore": 0.0

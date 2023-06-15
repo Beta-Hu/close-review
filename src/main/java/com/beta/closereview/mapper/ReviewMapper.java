@@ -1,6 +1,6 @@
 package com.beta.closereview.mapper;
 
-import com.beta.closereview.dao.Review;
+import com.beta.closereview.pojo.Review;
 import org.apache.ibatis.annotations.Param;
 
 public interface ReviewMapper {
