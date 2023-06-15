@@ -1,78 +1,63 @@
-[//]: # (## 摇号)
+## 查看
+#### URL
+``` 
+/submission/submitting/{submissionId}
+```
 
-[//]: # (#### URL)
+#### Desc
+``` 
+查看提交的submission。
+```
 
-[//]: # (```)
+#### Method
+```
+GET
+```
 
-[//]: # (/conference/submit/{conferenceId}/addSubmission)
+#### Param
+``` 
+submissionId: Integer
+```
 
-[//]: # (```)
-
-[//]: # ()
-[//]: # (#### Method)
-
-[//]: # (``` )
-
-[//]: # (POST)
-
-[//]: # (```)
-
-[//]: # ()
-[//]: # (#### Param)
-
-[//]: # (``` )
-
-[//]: # (title: String)
-
-[//]: # (abstract: String)
-
-[//]: # (authors: List<String>)
-
-[//]: # (```)
-
-[//]: # ()
-[//]: # (#### Response)
-
-[//]: # (###### success)
-
-[//]: # (```json)
-
-[//]: # ({)
-
-[//]: # (  "status": 0,)
-
-[//]: # (  "msg": "success",)
-
-[//]: # (  "data": {)
-
-[//]: # (    "submissionId": 0)
-
-[//]: # (  })
-
-[//]: # (})
-
-[//]: # (```)
-
-[//]: # (###### fail)
-
-[//]: # (```json)
-
-[//]: # ({)
-
-[//]: # (  "status": 300001,)
-
-[//]: # (  "msg": "add submission failed",)
-
-[//]: # (  "data": [])
-
-[//]: # (})
-
-[//]: # (```)
+#### Response
+###### success
+```json
+{
+  "status": 0,
+  "msg": "success",
+  "data": {
+    "id": 0,
+    "title": "xx xxxx xxx",
+    "abstracts": "xxx",
+    "corresponding": 0,
+    "author": ["xx", "xx", "xx"],
+    "file": "file://xxx.pdf",
+    "supportMaterial": "file://xxx.pdf",
+    "conference": "xxxx",
+    "comments": [{
+      "reviewer": "xx",
+      "initialComments": ["xx", "xx"],
+      "rebuttal": ["xx", "xx"],
+      "initialScore": 0.0,
+      "finalComments": "xxx",
+      "finalScore": 0.0
+    }]
+  }
+}
+```
+###### fail
+```json
+{
+  "status": 300001,
+  "msg": "permission died",
+  "data": []
+}
+```
 
 ## 创建、提交或更新
 #### URL
 ```
-/submit/{conferenceId}
+/submission/submitting/{submissionId}/submit
 ```
 
 #### Desc

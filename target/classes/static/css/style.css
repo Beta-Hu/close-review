@@ -23,7 +23,7 @@
     position: static;
     float: right;
     margin: 0 5% 0 0;
-    font-size: 24px;
+    font-size: 20px;
     color: rgba(237, 237, 237, 1);
     text-decoration: none;
 }
@@ -36,7 +36,7 @@
     width: 30%;
 }
 .sign {
-    font-size: 24px;
+    font-size: 20px;
     margin: 0 20% 0 0;
     color: rgba(237, 237, 237, 1);
     text-decoration: none;
@@ -72,6 +72,7 @@
     margin: 2% 0 0 0;
     text-indent: 20px;
     font-size: 20px;
+    font-family: sans-serif;
     vertical-align: middle;
 }
 .button {
@@ -127,6 +128,7 @@
     margin: 0 5px 0 0;
     text-indent: 12px;
     font-size: 16px;
+    font-family: sans-serif;
 }
 .horizonalbox {
     justify-content: space-between;
@@ -146,6 +148,13 @@
     margin: 0 16px 0 0;
     display: block !important;
 }
+.tinyhref {
+    text-decoration: none;
+    font-size: 14px;
+    color: black;
+    margin: 0 16px 0 0;
+    display: block !important;
+}
 .tinyfont {
     padding: 10px 0 0 0;
     display: block !important;
@@ -157,6 +166,7 @@
     overflow-x: scroll;
     text-indent: 12px;
     font-size: 16px;
+    font-family: sans-serif;
     vertical-align: middle;
     border-radius: 5px 5px 5px 5px;
     border: rgba(237, 237, 237, 1) solid 2px;
@@ -185,6 +195,7 @@
     display: block !important;
     height: 96px !important;
     font-size: 12px;
+    font-family: sans-serif;
     text-indent: 12px;
     text-align: justify;
 }

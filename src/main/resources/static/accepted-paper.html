@@ -55,7 +55,7 @@
         submissionId = submissionId[submissionId.length - 1];
         $.ajax({
             type: "GET",
-            url: "/submission/" + submissionId,
+            url: "/submission/accepted/" + submissionId,
             dataType: 'json',
             async: true,
             data: {},

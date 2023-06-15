@@ -32,7 +32,7 @@ public class CommentDao {
     public Set<Integer> getAuthor(Integer submissionId){
         // 获取单个submission的所有作者
         return stringRedisTemplate.opsForSet()
-                .members(submissionId.toString())
+                .members("authorList:" + submissionId.toString())
                 .stream().map(Integer::parseInt)
                 .collect(Collectors.toSet());
     }
@@ -62,10 +62,23 @@ public class CommentDao {
         return comments;
     }
 
+    public Set<Integer> getSubmissionOfAuthor(Integer authorId){
+        return stringRedisTemplate.opsForSet()
+                .members("submissionList:" + authorId.toString())
+                .stream().map(Integer::parseInt)
+                .collect(Collectors.toSet());
+    }
+
     public void addAuthor(Integer submissionId, List<Integer> authorIds){
-        for (Integer authorId: authorIds)
+        for (Integer authorId: authorIds){
+            // 为该submission添加一个author
             stringRedisTemplate.opsForSet()
-                .add("authorList:" + submissionId, authorId.toString());
+                    .add("authorList:" + submissionId, authorId.toString());
+            // 为该用户添加一个submission记录
+            stringRedisTemplate.opsForSet()
+                    .add("submissionList:" + authorId, submissionId.toString());
+        }
+
     }
 
     public void addComment(Integer submissionId, List<String> comments){

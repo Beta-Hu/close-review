@@ -13,7 +13,7 @@
         </div>
         <div class="divbutton">
             <a class="profile">Profile<br></a>
-            <a class="sign">Sign in</a>
+            <a class="sign" id="sign"></a>
         </div>
     </div>
     <div class="bigholder">
@@ -21,22 +21,24 @@
     <div class="smallholder">
     </div>
     <div class="horizonalbox">
-        <span class="bigfont"># Submission Id</span>
-        <input type="submit" name="button" value="Submit" class="submitbutton">
+        <span class="bigfont" id="submission-id"># Submission </span>
+        <button id="submit" type="submit" name="button" class="submitbutton" onclick="submit()">Submit</button>
     </div>
     <div>
         <ul>
             <li class="unsortedlist">
-                <input type="text" name="input" class="textsubmission" value="" placeholder="Type your title here">
+                <input type="text" name="input" class="textsubmission" value="" id="title"
+                       placeholder="Type your title here">
                 <div class="smallholder"></div>
                 <div class="horizonalbox">
-                    <input type="text" name="input" class="texttiny" value=""
+                    <input type="text" name="input" class="texttiny" value="" id="authors"
                            placeholder="Type the email of authors here, use semicolon to seperate">
-                    <a class="smallhref">Upload PDF</a>
-                    <a class="smallhref">Upload Support Material</a>
-                    <a class="smallhref">Upload Rebuttal</a></div>
+                    <a class="tinyhref">Upload PDF</a>
+                    <a class="tinyhref">Upload Support Material</a>
+                    <a class="tinyhref">Upload Rebuttal</a></div>
                 <div class="smallholder"></div>
-                <textarea name="textarea" class="textarea" placeholder="Type your abstract here"></textarea>
+                <textarea name="textarea" class="textarea" id="abstracts"
+                      placeholder="Type your abstract here"></textarea>
             </li>
         </ul>
     </div>
@@ -48,66 +50,94 @@
 </div>
 </body>
 
-<script  type="text/javascript" src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/user-status.js"></script>
 <script type="text/javascript">
+    var conferenceId = parseInt(window.location.href.match(/conferenceId=\d+/)[0].match(/\d+/)[0]);
+    var submissionId = parseInt(window.location.href.match(/submissionId=\d+/)[0].match(/\d+/)[0]);
+    var isNewSubmission = window.location.href.match(/newSubmission/) != null;
+
     window.onload = function () {
-        var submissionId = window.location.href.split("=");
-        submissionId = submissionId[submissionId.length - 1];
-        $.ajax({
-            type: "GET",
-            url: "/submission/" + submissionId,
-            dataType: 'json',
-            async: true,
-            data: {},
-            success: function (data){
-                var status = data["status"];
-                var reviewerHead;
-                var reviewerTail;
-                if (status === 0) {
-                    for (var i = 0; i < data["data"].length; i++){
-                        reviewerHead = "<li>\n" +
-                        "<span class=\"bigfont\"># Reviewer " + i + "</span>" +
-                        "<ul class=\"list\">";
+        if (! isNewSubmission) {
+            $.ajax({
+                type: "GET",
+                url: "/submission/submitting/" + submissionId,
+                dataType: 'json',
+                async: true,
+                data: {},
+                success: function (data) {
+                    var status = data["status"];
+                    var reviewerHead;
+                    var reviewerTail;
+                    if (status === 0) {
+                        document.getElementById("submission-id").innerHTML = "# Submission " + data["data"]["id"];
+                        document.getElementById("title").setAttribute("value", data["data"]["title"]);
+                        $("#abstracts").val(data["data"]["abstracts"]);
 
-                        var commentsOfReviewer = ""
-                        for (var j = 0; j < data["data"]["comments"]["initialComments"].length; j++){
-                            commentsOfReviewer +=
-                                "<li class=\"unsortedlist\">\n" +
-                                "<span class=\"smallfont\">" +
-                                data["data"]["comments"]["initialComments"][i] +
-                                "</span>\n" +
-                                "<span class=\"tinyfont\">" +
-                                data["data"]["comments"]["rebuttal"][i] +
-                                "</span>\n" +
-                                "<div class=\"smallholder\"></div>\n" +
-                                "</li>"
-                                + data["data"]["comments"]["initialComments"][i];
+                        for (var i = 0; i < data["data"]["author"].length; i++)
+                            document.getElementById("authors").value +=
+                                data["data"]["author"][i]["username"] + "(" + data["data"]["author"][i]["email"] + "); ";
+
+                        for (var i = 0; i < data["data"].length; i++) {
+                            reviewerHead = "<li>\n" +
+                                "<span class=\"bigfont\"># Reviewer " + i + "</span>" +
+                                "<ul class=\"list\">";
+
+                            var commentsOfReviewer = ""
+                            for (var j = 0; j < data["data"]["comments"]["initialComments"].length; j++) {
+                                commentsOfReviewer +=
+                                    "<li class=\"unsortedlist\">\n" +
+                                    "<span class=\"smallfont\">" +
+                                    data["data"]["comments"]["initialComments"][i] +
+                                    "</span>\n" +
+                                    "<span class=\"tinyfont\">" +
+                                    data["data"]["comments"]["rebuttal"][i] +
+                                    "</span>\n" +
+                                    "<div class=\"smallholder\"></div>\n" +
+                                    "</li>"
+                                    + data["data"]["comments"]["initialComments"][i];
+                            }
+
+                            reviewerTail = "</ul></li></ul>";
+
+                            document.getElementById("reviewer").innerHTML +=
+                                reviewerHead + commentsOfReviewer + reviewerTail;
                         }
-
-                        reviewerTail = "</ul></li></ul>";
-
-                        document.getElementById("reviewer").innerHTML +=
-                            reviewerHead + commentsOfReviewer + reviewerTail;
+                    } else {
+                        alert("permission died");
                     }
+                },
+                error: function () {
+                    alert("load paper detail failed");
                 }
+            });
+        }
+    };
+
+    function submit () {
+        $.ajax({
+            type: "POST",
+            url: "/submission/submitting/" + submissionId,
+            dataType: 'json',
+
+            async: true,
+            data: {
+                "id": submissionId,
+                "title": document.getElementById("title").value,
+                "abstracts": document.getElementById("abstracts").value,
+                "author": document.getElementById("authors").value,
+                "file": "aaa.pdf",
+                "supportMaterial": "bbb.pdf",
+                "conference": conferenceId,
             },
-            error: function (){
-                alert("load paper detail failed");
+            success: function (data) {
+                if (data["status"] === 0)
+                    alert("submit successfully");
+                else
+                    alert("submit failed");
             }
         });
     };
-
-    void function (){
-        var user = sessionStorage.getItem("user");
-        if (user != null) {
-            // todo: 完成退出页面
-            document.getElementById("sign").setAttribute("href", "/user/signout")
-            document.getElementById("sign").innerHTML = "Sign out";
-        } else {
-            document.getElementById("sign").setAttribute("href", "/signin.html")
-            document.getElementById("sign").innerHTML = "Sign in";
-        }
-    }();
 </script>
 
 </html>

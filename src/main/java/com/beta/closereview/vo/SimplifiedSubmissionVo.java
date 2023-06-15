@@ -9,5 +9,6 @@ import java.util.List;
 public class SimplifiedSubmissionVo {
     private Integer id;
     private String title;
+    private String conferenceName;
     private List<User> author;
 }

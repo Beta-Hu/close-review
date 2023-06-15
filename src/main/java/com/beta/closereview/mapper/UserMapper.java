@@ -22,4 +22,6 @@ public interface UserMapper {
     User getUserByEmail(String email);
 
     List<User> getUsersByIds(List<Integer> ids);
+
+    List<User> getUsersByEmails(List<String> emails);
 }

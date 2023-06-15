@@ -61,7 +61,7 @@
                         else
                             document.getElementById("ul-active").innerHTML +=
                                 "<li class=\"item\">" +
-                                "<a class='listhref'  href='/conference/submit/" + data["data"][i]["id"] + "/addSubmission'>" +
+                                "<a class='listhref'  href='" + window.location.origin + "/conference-active.html?conferenceId=" + data["data"][i]["id"] + "'>" +
                                 data["data"][i]["name"] + " (" + data["data"][i]["acronym"] + data["data"][i]["year"] + ")"
                                 + "</a></li><div class=\"smallholder\"> </div>"
                     }

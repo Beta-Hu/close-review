@@ -1,4 +1,4 @@
-package com.beta.closereview.vo;
+package com.beta.closereview.form;
 
 import com.beta.closereview.pojo.Comment;
 import com.beta.closereview.pojo.Conference;
@@ -8,14 +8,13 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class SubmissionVo {
+public class SubmissionForm {
     private Integer id;
     private String title;
     private String abstracts;
     private Integer corresponding;
-    private List<User> author;
+    private String author;
     private String file;
     private String supportMaterial;
-    private Conference conference;
-    private List<Comment> comments;
+    private Integer conference;
 }

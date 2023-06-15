@@ -13,18 +13,18 @@
         </div>
         <div class="divbutton">
             <a class="profile" href="profile.html">Profile<br></a>
-            <a class="sign" href="signin.html">Sign in</a>
+            <a class="sign" id="sign"></a>
         </div>
     </div>
-    <div class="bigholder"> </div>
-    <div class="smallholder"> </div>
+    <div class="bigholder"></div>
+    <div class="smallholder"></div>
     <div class="horizonalbox">
         <input type="text" name="input" class="textsearch">
-        <input type="submit" name="button"  value="" class="smallbutton">
+        <input type="submit" name="button" value="" class="smallbutton">
     </div>
-    <div class="smallholder"> </div>
+    <div class="smallholder"></div>
     <div class="detail">
-        <span class="bigfont">Accepted List</span>
+        <span class="bigfont" id="conference-name"></span>
         <ul id="accepted-list">
         </ul>
     </div>
@@ -41,23 +41,24 @@
         conferenceId = conferenceId[conferenceId.length - 1];
         $.ajax({
             type: "GET",
-            url: "/conference/" + conferenceId,
+            url: "/conference/inactive/" + conferenceId,
             dataType: 'json',
             async: true,
             data: {},
-            success: function (data){
+            success: function (data) {
                 var status = data["status"];
                 if (status === 0) {
-                    for (var i = 0; i < data["data"].length; i++){
+                    for (var i = 0; i < data["data"].length; i++) {
                         document.getElementById("accepted-list").innerHTML +=
                             "<li class=\"item\">" +
                             "<a class='listhref' href='" + window.location.origin + "/accepted-paper.html?submissionId=" + data["data"][i]["id"] + " '>" +
                             data["data"][i]["title"] + "<br><span class='tinyfont'>" + "athor1 author2" + "</span>"
                             + "</a></li><div class=\"smallholder\"> </div>"
                     }
+                    document.getElementById("conference-name").innerHTML = data["data"][0]["conferenceName"];
                 }
             },
-            error: function (){
+            error: function () {
                 alert("load paper detail failed");
             }
         });
