@@ -27,10 +27,13 @@ public class SubmissionService {
     @Resource
     private ConferenceMapper conferenceMapper;
     @Resource
-    private CommentDao commentDao;
-    @Resource
     private AuthorDao authorDao;
 
+    /**
+     * 列出指定会议的所有录用submission
+     * @param conferenceId  会议id
+     * @return 返回给前端的Submission基本信息构成的数组
+     */
     public List<SimplifiedSubmissionVo> listAcceptedSubmission(Integer conferenceId){
         List<SimplifiedSubmissionVo> submissionVos = submissionMapper.listAcceptedSubmissions(conferenceId);
         List<Integer> submissionIds = submissionVos.stream()
@@ -61,6 +64,11 @@ public class SubmissionService {
         return submissionVos;
     }
 
+    /**
+     * 在accepted-paper.html页面显示指定的(已接收的，对所有用户可查看的)submission的详情
+     * @param submissionId  submission的id
+     * @return  返回给前端的submission的信息
+     */
     public SubmissionVo showSubmissionDetail(Integer submissionId){
         Submission submission = submissionMapper.selectByPrimaryKey(submissionId);
         Conference conference = conferenceMapper.selectByPrimaryKey(submission.getConference());
@@ -75,6 +83,12 @@ public class SubmissionService {
         return submissionVo;
     }
 
+    /**
+     * 在submission.html页面显示指定的(对author和reviewer的)submission的详情
+     * @param submissionId submission的id
+     * @param userId author或reviewer的id
+     * @return  返回给前端的submission的信息
+     */
     public SubmissionVo showSubmissionDetail(Integer submissionId, Integer userId){
         Submission submission = submissionMapper.selectByPrimaryKey(submissionId);
         Conference conference = conferenceMapper.selectByPrimaryKey(submission.getConference());
@@ -92,11 +106,22 @@ public class SubmissionService {
             return null;
     }
 
+    /**
+     * 在conference-active.html页面显示的用户提交的submission的基本信息
+     * @param conferenceId 会议id
+     * @param authorId author的id
+     * @return 该用户在该会议中提交的submission的基本信息列表
+     */
     public List<SimplifiedSubmissionVo> listSubmissions(Integer conferenceId, Integer authorId){
         Set<Integer> submissionIds = authorDao.getSubmissionOfAuthor(authorId);
         return submissionMapper.listSubmissionBySids(conferenceId, new ArrayList<>(submissionIds));
     }
 
+    /**
+     * 在profile.html页面展示的用户已经被接收的全部submission的基本信息
+     * @param authorId 用户id
+     * @return 该用户所有以被接接收的submission的基本信息列表
+     */
     public List<SimplifiedSubmissionVo> listPublications(Integer authorId){
         Set<Integer> submissionIds = authorDao.getSubmissionOfAuthor(authorId);
         List<Submission> submissions = submissionMapper.listPublicationBySids(new ArrayList<>(submissionIds));
@@ -117,7 +142,12 @@ public class SubmissionService {
         }
         return simplifiedSubmissionVoList;
     }
-    
+
+    /**
+     * 用户创建或更新submission。当form中id为0时表明该submission为新创建的，否则为更新的。
+     * @param form 前端用户填写的submission内容构成的表单
+     * @param user 用户id
+     */
     public void updateSubmission(SubmissionForm form, User user){
         String[] authorWithEmails = form.getAuthor().replace(" ", "").split("[(|)|;]");
         List<String> emails = new ArrayList<>();

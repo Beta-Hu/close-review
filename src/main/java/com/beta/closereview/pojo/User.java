@@ -1,5 +1,6 @@
 package com.beta.closereview.pojo;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
@@ -22,5 +23,9 @@ public class User {
     }
 
     public User() {
+    }
+
+    public User(String password){
+        this.password = password;
     }
 }

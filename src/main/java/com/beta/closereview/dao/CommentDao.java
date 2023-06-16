@@ -14,9 +14,13 @@ public class CommentDao {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
+    /**
+     * 获取多个submission各自的reviewer的comments
+     * @param submissionIds submission的id
+     * @return 多个submission各自的comments集合构成的列表
+     */
     @Deprecated
     public List<Set<String>> getComments(List<Integer> submissionIds){
-        // 获取多个submission的所有reviewer的comments
         List<Set<String>> commentsList = new ArrayList<>();
         for (Integer id: submissionIds){
             Set<String> comments = stringRedisTemplate.opsForSet()
@@ -26,8 +30,12 @@ public class CommentDao {
         return commentsList;
     }
 
+    /**
+     * 获取单个submission的所有reviewer的comments
+     * @param submissionId submission的id
+     * @return 该submission的所有comments。每个reviewer的comments构成一个内层列表，所有reviewer构成外层列表
+     */
     public List<List<String>> getComment(Integer submissionId){
-        // 获取单个submission的所有reviewer的comments
         Gson gson = new Gson();
         Set<String> jsonComments = stringRedisTemplate.opsForSet()
                 .members("commentList:" + submissionId.toString());
@@ -39,8 +47,12 @@ public class CommentDao {
         return comments;
     }
 
+    /**
+     * 单个reviewer添加对单个submission的多条comment
+     * @param submissionId submission的id
+     * @param comments 该reviewer对该submission的所有comments
+     */
     public void addComment(Integer submissionId, List<String> comments){
-        // 添加单个reviewer对单个submission的多条comment
         Gson gson = new Gson();
         stringRedisTemplate.opsForSet()
                 .add("commentList:" + submissionId.toString(), gson.toJson(comments));

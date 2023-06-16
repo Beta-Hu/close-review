@@ -23,19 +23,35 @@ public class UserController {
     @Resource
     private SubmissionService submissionService;
 
+    /**
+     * 用户登录。加载登录界面时自动请求发送校验码进行加密。
+     * @param request
+     * @return
+     */
     @PostMapping("/signin")
     public ResponseVo<User> verify(HttpServletRequest request){
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+        if (request.getParameter("requireCode") != null){
+            String verifyCode = String.valueOf((int) (Integer.MAX_VALUE * Math.random()));
+            request.getSession().setAttribute("verifyCode", verifyCode);
+            return new ResponseVo<>(new User(verifyCode));
+        } else{
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
 
-        if (userService.verifyUser(email, password)){
-            User user = userService.getUser(email);
-            request.getSession().setAttribute("user", user);
-            return new ResponseVo<>(user);
+            if (userService.verifyUser(email, password, (String) request.getSession().getAttribute("verifyCode"))){
+                User user = userService.getUser(email);
+                request.getSession().setAttribute("user", user);
+                return new ResponseVo<>(user);
+            }
+            return new ResponseVo<>(0x100001, "signin failed", null);
         }
-        return new ResponseVo<>(0x100001, "signin failed", null);
     }
 
+    /**
+     * 用户注册
+     * @param request
+     * @return
+     */
     @PostMapping("/signup")
     public ResponseVo<User> signup(HttpServletRequest request){
         String email = request.getParameter("email");
@@ -55,12 +71,22 @@ public class UserController {
         return new ResponseVo<>(user);
     }
 
+    /**
+     * 用户退出登录
+     * @param request
+     * @return
+     */
     @GetMapping("/signout")
     public ResponseVo<String> signout(HttpServletRequest request){
         request.getSession().setAttribute("user", null);
         return new ResponseVo<>();
     }
 
+    /**
+     * 查看用户的个人信息
+     * @param request
+     * @return
+     */
     @GetMapping("/profile")
     public ResponseVo<ProfileVo> profile(HttpServletRequest request){
         User user = (User) request.getSession().getAttribute("user");

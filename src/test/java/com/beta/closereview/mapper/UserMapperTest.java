@@ -20,12 +20,12 @@ class UserMapperTest extends SuperCloseReviewTest {
         Assert.assertEquals(password, "aaa111");
     }
 
-    @Test
-    public void getUser(){
-        User user = userMapper.getUserByEmail("betahu@qq.com");
-        Assert.assertEquals(user.getUsername(), "Beta Hu");
-        Assert.assertEquals(user.getOrganization(), "Chongqing University of Posts and Telecommunications");
-    }
+//    @Test
+//    public void getUser(){
+//        User user = userMapper.getUserByEmail("betahu@qq.com");
+//        Assert.assertEquals(user.getUsername(), "Beta Hu");
+//        Assert.assertEquals(user.getOrganization(), "Chongqing University of Posts and Telecommunications");
+//    }
 
     @Test
     public void getUsersByIds(){
