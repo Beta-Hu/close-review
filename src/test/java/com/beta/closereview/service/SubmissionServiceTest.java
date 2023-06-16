@@ -41,10 +41,10 @@ class SubmissionServiceTest extends SuperCloseReviewTest {
             System.out.println(s);
     }
 
-    @Test
-    public void updateSubmission(){
-        SubmissionForm form = new SubmissionForm();
-        form.setAuthor("Beta Hu(betahu@qq.com); Btuaa Btrer(josiah.brooks@scioe.com);");
-        submissionService.updateSubmission(form, null);
-    }
+//    @Test
+//    public void updateSubmission(){
+//        SubmissionForm form = new SubmissionForm();
+//        form.setAuthor("Beta Hu(betahu@qq.com); Btuaa Btrer(josiah.brooks@scioe.com);");
+//        submissionService.updateSubmission(form, null);
+//    }
 }

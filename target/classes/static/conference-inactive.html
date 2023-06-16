@@ -16,13 +16,13 @@
             <a class="sign" id="sign"></a>
         </div>
     </div>
-    <div class="bigholder"> </div>
-    <div class="smallholder"> </div>
+    <div class="bigholder"></div>
+    <div class="smallholder"></div>
     <div class="horizonalbox">
         <input type="text" name="input" class="textsearch">
-        <input type="submit" name="button"  value="" class="smallbutton">
+        <input type="submit" name="button" value="" class="smallbutton">
     </div>
-    <div class="smallholder"> </div>
+    <div class="smallholder"></div>
     <div class="detail">
         <span class="bigfont" id="conference-name"></span>
         <ul id="accepted-list">
@@ -32,6 +32,11 @@
     </div>
 </div>
 </body>
+
+<p style="background: none; height: 5%; position: fixed; bottom: 0; width: 100%; text-align: center;">
+    <img style="padding-top:2px; height: 10px; width: auto" src="/img/emblem.png" alt="">
+    <a class="icp" style="color:#000; font-size: 8px" href="https://beian.miit.gov.cn/" target="_blank">鄂ICP备2023008384号</a>
+</p>
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/user-status.js"></script>
@@ -45,10 +50,10 @@
             dataType: 'json',
             async: true,
             data: {},
-            success: function (data){
+            success: function (data) {
                 var status = data["status"];
                 if (status === 0) {
-                    for (var i = 0; i < data["data"].length; i++){
+                    for (var i = 0; i < data["data"].length; i++) {
                         document.getElementById("accepted-list").innerHTML +=
                             "<li class=\"item\">" +
                             "<a class='listhref' href='" + window.location.origin + "/accepted-paper.html?submissionId=" + data["data"][i]["id"] + " '>" +
@@ -58,7 +63,7 @@
                     document.getElementById("conference-name").innerHTML = data["data"][0]["conferenceName"];
                 }
             },
-            error: function (){
+            error: function () {
                 alert("load paper detail failed");
             }
         });

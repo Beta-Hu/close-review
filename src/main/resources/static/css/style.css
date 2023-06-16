@@ -183,7 +183,7 @@
     border: rgba(237, 237, 237, 1) solid 1px;
     border-radius: 5px 5px 5px 5px;
     height: 20px !important;
-    width: 50%;
+    width: 60%;
 }
 .textabstract::-webkit-scrollbar {
     display: none;
@@ -214,4 +214,22 @@
 .listhref {
     text-decoration: none;
     color: black
+}
+.accept-abstract{
+    padding: 10px 0 0 0;
+    font-size: 12px;
+    color: rgba(145, 145, 145, 1);
+    display: inline-block;
+    width: 99%;
+    word-break: break-all;
+    white-space: normal;
+}
+.accept-author{
+    padding: 10px 0 0 0;
+    font-size: 12px;
+    color: rgba(145, 145, 145, 1);
+    display: inline-block;
+    width: 60%;
+    word-break: break-all;
+    white-space: normal;
 }

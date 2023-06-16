@@ -13,7 +13,7 @@
         </div>
         <div class="divbutton">
             <a class="profile">Profile<br></a>
-            <a class="sign">Sign in</a>
+            <a class="sign" id="sign"></a>
         </div>
     </div>
     <div class="bigholder">
@@ -21,22 +21,20 @@
     <div class="smallholder">
     </div>
     <div class="horizonalbox">
-        <span class="bigfont"># Submission Id</span>
-        <input type="submit" name="button" value="Submit" class="submitbutton">
+        <span class="bigfont" id="title"></span>
     </div>
     <div>
         <ul>
             <li class="unsortedlist">
-                <input type="text" name="input" class="textsubmission" value="" placeholder="Type your title here">
                 <div class="smallholder"></div>
                 <div class="horizonalbox">
-                    <input type="text" name="input" class="texttiny" value=""
-                           placeholder="Type the email of authors here, use semicolon to seperate">
-                    <a class="smallhref">Upload PDF</a>
-                    <a class="smallhref">Upload Support Material</a>
-                    <a class="smallhref">Upload Rebuttal</a></div>
+                    <span class="accept-author" id="authors"></span>
+                    <a class="smallhref">PDF</a>
+                    <a class="smallhref">SupportMaterial</a>
+                    <a class="smallhref">Rebuttal</a>
+                </div>
                 <div class="smallholder"></div>
-                <textarea name="textarea" class="textarea" placeholder="Type your abstract here"></textarea>
+                <span class="accept-abstract" id="abstracts"></span>
             </li>
         </ul>
     </div>
@@ -48,7 +46,13 @@
 </div>
 </body>
 
-<script  type="text/javascript" src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<p style="background: none; height: 5%; position: fixed; bottom: 0; width: 100%; text-align: center;">
+    <img style="padding-top:2px; height: 10px; width: auto" src="/img/emblem.png" alt="">
+    <a class="icp" style="color:#000; font-size: 8px" href="https://beian.miit.gov.cn/" target="_blank">鄂ICP备2023008384号</a>
+</p>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/user-status.js"></script>
 <script type="text/javascript">
     window.onload = function () {
         var submissionId = window.location.href.split("=");
@@ -63,6 +67,14 @@
                 var status = data["status"];
                 var reviewerHead;
                 var reviewerTail;
+
+                document.getElementById("title").innerHTML = "# " + data["data"]["id"] + " " + data["data"]["title"];
+                document.getElementById("abstracts").innerHTML = "Abstract: " + data["data"]["abstracts"];
+                document.getElementById("authors").innerHTML = "Author: ";
+                for (var i = 0; i < data["data"]["author"].length; i++)
+                    document.getElementById("authors").innerHTML +=
+                        data["data"]["author"][i]["username"] + "(" + data["data"]["author"][i]["email"] + "); ";
+
                 if (status === 0) {
                     for (var i = 0; i < data["data"].length; i++){
                         reviewerHead = "<li>\n" +
@@ -96,18 +108,6 @@
             }
         });
     };
-
-    void function (){
-        var user = sessionStorage.getItem("user");
-        if (user != null) {
-            // todo: 完成退出页面
-            document.getElementById("sign").setAttribute("href", "/user/signout")
-            document.getElementById("sign").innerHTML = "Sign out";
-        } else {
-            document.getElementById("sign").setAttribute("href", "/signin.html")
-            document.getElementById("sign").innerHTML = "Sign in";
-        }
-    }();
 </script>
 
 </html>
