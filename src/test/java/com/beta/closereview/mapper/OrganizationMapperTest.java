@@ -5,8 +5,6 @@ import com.beta.closereview.pojo.Organization;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class OrganizationMapperTest extends SuperCloseReviewTest {
     @Resource
     private OrganizationMapper organizationMapper;

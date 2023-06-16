@@ -1,18 +1,27 @@
 package com.beta.closereview.controller;
 
 import com.beta.closereview.pojo.User;
+import com.beta.closereview.service.SubmissionService;
 import com.beta.closereview.service.UserService;
+import com.beta.closereview.vo.ProfileVo;
 import com.beta.closereview.vo.ResponseVo;
+import com.beta.closereview.vo.SimplifiedSubmissionVo;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
+    @Resource
     private UserService userService;
+    @Resource
+    private SubmissionService submissionService;
 
     @PostMapping("/signin")
     public ResponseVo<User> verify(HttpServletRequest request){
@@ -53,9 +62,11 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public ResponseVo<User> profile(HttpServletRequest request){
+    public ResponseVo<ProfileVo> profile(HttpServletRequest request){
         User user = (User) request.getSession().getAttribute("user");
-        // todo: 将已发表的文章添加到profile
-        return new ResponseVo<>(0, "success", user);
+        List<SimplifiedSubmissionVo> submissionVos =
+                submissionService.listPublications(user.getId());
+
+        return new ResponseVo<>(new ProfileVo(user, submissionVos));
     }
 }

@@ -6,13 +6,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CommentDaoTest extends SuperCloseReviewTest {
     @Resource
     private CommentDao commentDao;
+    @Resource
+    private AuthorDao authorDao;
 
     @Test
     void getAuthors() {
@@ -43,7 +42,7 @@ class CommentDaoTest extends SuperCloseReviewTest {
         authors.add(78);
         authors.add(48);
         authors.add(46);
-        commentDao.addAuthor(15, authors);
+        authorDao.addAuthor(15, authors);
     }
 
     @Test

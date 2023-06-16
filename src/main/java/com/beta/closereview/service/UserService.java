@@ -1,9 +1,8 @@
 package com.beta.closereview.service;
 
-import com.beta.closereview.pojo.User;
 import com.beta.closereview.mapper.UserMapper;
+import com.beta.closereview.pojo.User;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -99,15 +99,16 @@
     border-bottom: rgba(237, 237, 237, 1) solid 1px !important;
     padding: 5px 0 5px 0;
 }
-.item {
+.highitem {
     vertical-align: middle;
     text-overflow: ellipsis;
+    list-style-type: none;
     overflow-y: hidden;
     overflow-x: hidden;
     white-space: nowrap;
     font-size: 20px;
     width: 100%;
-    height: 24px !important;
+    height: 64px !important;
     border-bottom: rgba(237, 237, 237, 1) solid 1px !important;
     padding: 5px 0 5px 0;
 }

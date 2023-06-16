@@ -1,7 +1,6 @@
 package com.beta.closereview.controller;
 
 import com.beta.closereview.form.SubmissionForm;
-import com.beta.closereview.pojo.Comment;
 import com.beta.closereview.pojo.User;
 import com.beta.closereview.service.SubmissionService;
 import com.beta.closereview.vo.ResponseVo;

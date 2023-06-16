@@ -30,13 +30,16 @@
     <div class="bigholder"></div>
     <div class="detail">
         <span class="bigfont">Publications</span>
+        <ul id="publication">
+
+        </ul>
     </div>
 </div>
 </body>
 
 <p style="background: none; height: 5%; position: fixed; bottom: 0; width: 100%; text-align: center;">
     <img style="padding-top:2px; height: 10px; width: auto" src="/img/emblem.png" alt="">
-    <a class="icp" style="color:#000; font-size: 8px" href="https://beian.miit.gov.cn/" target="_blank"></a>
+    <a id="icp" style="color:#000; font-size: 8px" href="https://beian.miit.gov.cn/" target="_blank"></a>
 </p>
 
 <script type="text/javascript" src="js/jquery.js"></script>
@@ -55,9 +58,18 @@
                 data: {},
                 success: function (data){
                     if (data["status"] === 0){
-                        document.getElementById("username").innerHTML = data["data"]["username"];
-                        document.getElementById("email").innerHTML = data["data"]["email"];
-                        document.getElementById("organization").innerHTML = data["data"]["organization"];
+                        document.getElementById("username").innerHTML = data["data"]["user"]["username"];
+                        document.getElementById("email").innerHTML = data["data"]["user"]["email"];
+                        document.getElementById("organization").innerHTML = data["data"]["user"]["organization"];
+
+                        for (var i = 0; i < data["data"]["submissions"].length; i++)
+                            document.getElementById("publication").innerHTML +=
+                                "<li class=\"highitem\"> <div>" +
+                                "<span><a class='listhref' href='accepted-paper.html?submissionId=" + data["data"]["submissions"][i]["id"] + "'>" +
+                                data["data"]["submissions"][i]["title"] + "</a></span>" +
+                                "<span class='tinyfont'>" + data["data"]["submissions"][i]["conferenceName"] + "</span>" +
+                                "</div> </li> " +
+                                "<div class=\"smallholder\"> </div>"
                     }
                     else
                         alert("password mismatch with email.");

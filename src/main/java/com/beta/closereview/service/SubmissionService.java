@@ -1,5 +1,6 @@
 package com.beta.closereview.service;
 
+import com.beta.closereview.dao.AuthorDao;
 import com.beta.closereview.dao.CommentDao;
 import com.beta.closereview.form.SubmissionForm;
 import com.beta.closereview.mapper.ConferenceMapper;
@@ -12,11 +13,7 @@ import com.beta.closereview.vo.SimplifiedSubmissionVo;
 import com.beta.closereview.vo.SubmissionVo;
 import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,23 +25,25 @@ public class SubmissionService {
     @Resource
     private UserMapper userMapper;
     @Resource
+    private ConferenceMapper conferenceMapper;
+    @Resource
     private CommentDao commentDao;
     @Resource
-    private ConferenceMapper conferenceMapper;
+    private AuthorDao authorDao;
 
     public List<SimplifiedSubmissionVo> listAcceptedSubmission(Integer conferenceId){
         List<SimplifiedSubmissionVo> submissionVos = submissionMapper.listAcceptedSubmissions(conferenceId);
         List<Integer> submissionIds = submissionVos.stream()
                 .map(SimplifiedSubmissionVo::getId)
                 .collect(Collectors.toList());
-        List<Set<Integer>> authorIds = commentDao.getAuthors(submissionIds);
+        List<Set<Integer>> authorIds = authorDao.getAuthors(submissionIds);
         Conference conference = conferenceMapper.selectByPrimaryKey(conferenceId);
         Set<Integer> authorIdsSet = new HashSet<>();
         List<User> authors;
 
         authorIds.forEach(authorIdsSet::addAll);
 
-        Map<Integer, User> users = userMapper.getUsersByIds(new ArrayList<>(authorIdsSet))
+        Map<Integer, User> users = userMapper.listUsersByIds(new ArrayList<>(authorIdsSet))
                 .stream().collect(Collectors.toMap(User::getId, User -> User));
 
         SimplifiedSubmissionVo simplifiedSubmissionVo;
@@ -66,8 +65,8 @@ public class SubmissionService {
         Submission submission = submissionMapper.selectByPrimaryKey(submissionId);
         Conference conference = conferenceMapper.selectByPrimaryKey(submission.getConference());
 
-        List<Integer> authorIds = new ArrayList<>(commentDao.getAuthor(submissionId));
-        List<User> authors = userMapper.getUsersByIds(authorIds);
+        List<Integer> authorIds = new ArrayList<>(authorDao.getAuthor(submissionId));
+        List<User> authors = userMapper.listUsersByIds(authorIds);
 
         SubmissionVo submissionVo = new SubmissionVo();
         BeanUtils.copyProperties(submission, submissionVo);
@@ -80,9 +79,9 @@ public class SubmissionService {
         Submission submission = submissionMapper.selectByPrimaryKey(submissionId);
         Conference conference = conferenceMapper.selectByPrimaryKey(submission.getConference());
 
-        List<Integer> authorIds = new ArrayList<>(commentDao.getAuthor(submissionId));
+        List<Integer> authorIds = new ArrayList<>(authorDao.getAuthor(submissionId));
         if (authorIds.contains(userId)){
-            List<User> authors = userMapper.getUsersByIds(authorIds);
+            List<User> authors = userMapper.listUsersByIds(authorIds);
 
             SubmissionVo submissionVo = new SubmissionVo();
             BeanUtils.copyProperties(submission, submissionVo);
@@ -94,8 +93,29 @@ public class SubmissionService {
     }
 
     public List<SimplifiedSubmissionVo> listSubmissions(Integer conferenceId, Integer authorId){
-        Set<Integer> submissionIds = commentDao.getSubmissionOfAuthor(authorId);
+        Set<Integer> submissionIds = authorDao.getSubmissionOfAuthor(authorId);
         return submissionMapper.listSubmissionBySids(conferenceId, new ArrayList<>(submissionIds));
+    }
+
+    public List<SimplifiedSubmissionVo> listPublications(Integer authorId){
+        Set<Integer> submissionIds = authorDao.getSubmissionOfAuthor(authorId);
+        List<Submission> submissions = submissionMapper.listPublicationBySids(new ArrayList<>(submissionIds));
+        List<Integer> conferenceIds =
+                submissions.stream().map(Submission::getConference).distinct().collect(Collectors.toList());
+        Map<Integer, String> conferenceNames =
+                conferenceMapper.listConferenceByCids(conferenceIds).stream()
+                        .collect(Collectors.toMap(Conference::getId, Conference::getName));
+
+        List<SimplifiedSubmissionVo> simplifiedSubmissionVoList = new ArrayList<>();
+        SimplifiedSubmissionVo simplifiedSubmissionVo;
+        for (Submission s : submissions) {
+            simplifiedSubmissionVo = new SimplifiedSubmissionVo();
+            simplifiedSubmissionVo.setId(s.getId());
+            simplifiedSubmissionVo.setTitle(s.getTitle());
+            simplifiedSubmissionVo.setConferenceName(conferenceNames.get(s.getConference()));
+            simplifiedSubmissionVoList.add(simplifiedSubmissionVo);
+        }
+        return simplifiedSubmissionVoList;
     }
     
     public void updateSubmission(SubmissionForm form, User user){
@@ -106,7 +126,7 @@ public class SubmissionService {
             if (authorWithEmail.contains("@"))
                 emails.add(authorWithEmail);
 
-        List<User> users = userMapper.getUsersByEmails(emails);
+        List<User> users = userMapper.listUsersByEmails(emails);
 
         Submission submission = new Submission();
         BeanUtils.copyProperties(form, submission);
@@ -119,7 +139,7 @@ public class SubmissionService {
         } else{
             submissionMapper.updateByPrimaryKeySelective(submission);
         }
-        commentDao.addAuthor(submission.getId(),
+        authorDao.addAuthor(submission.getId(),
                 users.stream().map(User::getId).collect(Collectors.toList()));
     }
 }

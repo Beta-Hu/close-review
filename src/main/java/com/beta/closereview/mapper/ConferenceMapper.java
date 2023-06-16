@@ -18,4 +18,6 @@ public interface ConferenceMapper {
     int updateByPrimaryKey(Conference record);
 
     List<Conference> listAllConference();
+
+    List<Conference> listConferenceByCids(List<Integer> conferenceIds);
 }

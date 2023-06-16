@@ -29,12 +29,26 @@
     </select>
     <select id="listSubmissionBySids" resultType="com.beta.closereview.vo.SimplifiedSubmissionVo">
         select * from cr_submission
-        where conference = #{conferenceId, jdbcType=INTEGER} and id in
+        where
+            <if test="conferenceId != -1">
+                conference = #{conferenceId, jdbcType=INTEGER} and
+            </if>
+            id in
          (
             <if test="submissionIds.size() == 0">-1</if>
             <foreach collection="submissionIds" item="item" index="index" separator=",">
                 #{item, jdbcType=INTEGER}
             </foreach>
+        )
+    </select>
+    <select id="listPublicationBySids" resultType="com.beta.closereview.pojo.Submission">
+        select * from cr_submission
+        where status = 1 and id in
+        (
+        <if test="submissionIds.size() == 0">-1</if>
+        <foreach collection="submissionIds" item="item" index="index" separator=",">
+            #{item, jdbcType=INTEGER}
+        </foreach>
         )
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

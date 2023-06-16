@@ -1,6 +1,5 @@
 package com.beta.closereview.pojo;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

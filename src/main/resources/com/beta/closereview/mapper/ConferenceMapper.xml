@@ -18,7 +18,17 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
     <select id="listAllConference" resultType="com.beta.closereview.pojo.Conference">
-        select * from cr_conference
+        select *
+        from cr_conference
+    </select>
+    <select id="listConferenceByCids" resultType="com.beta.closereview.pojo.Conference">
+        select
+        <include refid="Base_Column_List"/>
+        from cr_conference
+        where id in
+        <foreach collection="conferenceIds" index="index" item="item" open="(" close=")" separator=",">
+            #{item, jdbcType=INTEGER}
+        </foreach>
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete

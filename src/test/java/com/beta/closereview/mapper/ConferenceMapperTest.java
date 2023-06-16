@@ -2,15 +2,14 @@ package com.beta.closereview.mapper;
 
 import com.beta.closereview.SuperCloseReviewTest;
 import com.beta.closereview.pojo.Conference;
+import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ConferenceMapperTest extends SuperCloseReviewTest {
-    @Autowired
+    @Resource
     private ConferenceMapper conferenceMapper;
 
     @Test

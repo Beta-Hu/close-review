@@ -36,7 +36,7 @@
         from cr_user
         where email = #{email, jdbcType=VARCHAR}
     </select>
-    <select id="getUsersByIds" resultMap="NoPasswordMap">
+    <select id="listUsersByIds" resultMap="NoPasswordMap">
         select <include refid="No_Password_Column_List"/>
         from cr_user
         where id in (
@@ -46,7 +46,7 @@
             </foreach>
             )
     </select>
-    <select id="getUsersByEmails" resultType="com.beta.closereview.pojo.User">
+    <select id="listUsersByEmails" resultType="com.beta.closereview.pojo.User">
         select <include refid="No_Password_Column_List"/>
         from cr_user
         where email in (

@@ -2,16 +2,16 @@ package com.beta.closereview.mapper;
 
 import com.beta.closereview.SuperCloseReviewTest;
 import com.beta.closereview.pojo.User;
+import jakarta.annotation.Resource;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class UserMapperTest extends SuperCloseReviewTest {
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
     @Test
@@ -33,7 +33,7 @@ class UserMapperTest extends SuperCloseReviewTest {
         ids.add(2);
         ids.add(5);
         ids.add(4);
-        List<User> usersByIds = userMapper.getUsersByIds(ids);
+        List<User> usersByIds = userMapper.listUsersByIds(ids);
         for (User u: usersByIds)
             System.out.println(u);
     }

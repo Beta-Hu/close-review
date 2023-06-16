@@ -1,27 +1,15 @@
 package com.beta.closereview.mapper;
 
 import com.beta.closereview.SuperCloseReviewTest;
+import com.beta.closereview.dao.AuthorDao;
 import com.beta.closereview.dao.CommentDao;
-import com.beta.closereview.pojo.Conference;
-import com.beta.closereview.pojo.Submission;
 import com.beta.closereview.vo.SimplifiedSubmissionVo;
-import com.beta.closereview.vo.SubmissionVo;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class SubmissionMapperTest extends SuperCloseReviewTest {
     @Resource
@@ -30,11 +18,22 @@ class SubmissionMapperTest extends SuperCloseReviewTest {
     private ConferenceMapper conferenceMapper;
     @Resource
     private CommentDao commentDao;
+    @Resource
+    private AuthorDao authorDao;
 
     @Test
     void listAcceptedSubmissions() {
         List<SimplifiedSubmissionVo> simplifiedSubmissionVos = submissionMapper.listAcceptedSubmissions(4);
         for (SimplifiedSubmissionVo s: simplifiedSubmissionVos)
+            System.out.println(s);
+    }
+
+    @Test
+    public void listSubmissions(){
+        Set<Integer> submissionIds = authorDao.getSubmissionOfAuthor(1);
+        List<SimplifiedSubmissionVo> submissionVos =
+                submissionMapper.listSubmissionBySids(-1, new ArrayList<>(submissionIds));
+        for (SimplifiedSubmissionVo s: submissionVos)
             System.out.println(s);
     }
 
