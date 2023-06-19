@@ -20,7 +20,7 @@ create table if not exists cr_submission(
     conference int(8) not null,
     file varchar(128) not null,
     support_material varchar(128) default null,
-    status int(4) not null default 0,     # 0-not available, 1-accept, 2-reject, 3-withdraw
+    status int(4) not null default 0,     # 0-not available, 1-under review, 2-under rebuttal, 3-accept, 4-reject, 5-withdraw
     submit_time datetime not null default current_timestamp,
     update_time datetime not null default current_timestamp on update current_timestamp
 );

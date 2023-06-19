@@ -6,9 +6,8 @@ import java.util.List;
 
 @Data
 public class Comment {
-    private User reviewer;
+    private Integer reviewer;
     private List<String> initialComments;
-    private List<String> rebuttal;
     private Integer initialScore;
     private String finalComments;
     private Integer finalScore;

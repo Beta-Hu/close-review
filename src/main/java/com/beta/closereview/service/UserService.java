@@ -5,7 +5,6 @@ import com.beta.closereview.pojo.User;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
-import java.security.NoSuchAlgorithmException;
 
 @Service
 public class UserService {

@@ -1,29 +1,32 @@
 package com.beta.closereview.dao;
 
+import com.beta.closereview.pojo.Comment;
+import com.google.gson.Gson;
 import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
-public class AuthorDao {
+public class UserDao {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
     /**
      * 获取多个submission的作者的id列表
-     * @param submissionIds
+     * @param submissionIds submission的id列表
      * @return authorId构成的列表，每个submission的author构成内层集合，所有submission构成外层列表
      */
     public List<Set<Integer>> getAuthors(List<Integer> submissionIds){
         List<Set<Integer>> authorIds = new ArrayList<>();
         for (Integer id: submissionIds){
             Set<Integer> authorIdsOfSubmission = stringRedisTemplate.opsForSet()
-                    .members("authorList:" + id.toString())
+                    .members("submission:author" + id.toString())
                     .stream().map(Integer::parseInt)
                     .collect(Collectors.toSet());
             authorIds.add(authorIdsOfSubmission);
@@ -38,7 +41,7 @@ public class AuthorDao {
      */
     public Set<Integer> getAuthor(Integer submissionId){
         return stringRedisTemplate.opsForSet()
-                .members("authorList:" + submissionId.toString())
+                .members("submission:author:" + submissionId.toString())
                 .stream().map(Integer::parseInt)
                 .collect(Collectors.toSet());
     }
@@ -50,9 +53,49 @@ public class AuthorDao {
      */
     public Set<Integer> getSubmissionOfAuthor(Integer authorId){
         return stringRedisTemplate.opsForSet()
-                .members("submissionList:" + authorId.toString())
+                .members("user:submit:" + authorId.toString())
                 .stream().map(Integer::parseInt)
                 .collect(Collectors.toSet());
+    }
+
+    /**
+     * 查看reviewer需要review的submission
+     * @param authorId
+     * @return
+     */
+    public Set<Integer> getReviewOfReviewer(Integer authorId){
+        return stringRedisTemplate.opsForSet()
+                .members("user:review:" + authorId.toString())
+                .stream().map(Integer::parseInt)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * 查看reviewer需要review的submission
+     * @param submissionId
+     * @return
+     */
+    public Set<Integer> getReviewerOfSubmission(Integer submissionId){
+        Map<Object, Object> entries =
+                stringRedisTemplate.opsForHash().entries("submission:comment:" + submissionId);
+        return entries.keySet().stream().map(o -> Integer.parseInt((String) o)).collect(Collectors.toSet());
+    }
+
+    /**
+     * 为reviewer添加需要review的submission
+     * @param reviewIds submission的多个review
+     * @param submissionId 被review的submission
+     */
+    public void addReviewer(Integer submissionId, List<Integer> reviewIds){
+        Gson gson = new Gson();
+        Comment comment = new Comment();
+        for (Integer reviewId: reviewIds) {
+            comment.setReviewer(reviewId);
+            stringRedisTemplate.opsForSet()
+                    .add("user:review:" + reviewId, submissionId.toString());
+            stringRedisTemplate.opsForHash().put("submission:comment:" + submissionId, reviewId.toString(),
+                    gson.toJson(comment));
+        }
     }
 
     /**
@@ -64,11 +107,10 @@ public class AuthorDao {
         for (Integer authorId: authorIds){
             // 为该submission添加一个author
             stringRedisTemplate.opsForSet()
-                    .add("authorList:" + submissionId, authorId.toString());
+                    .add("submission:author:" + submissionId, authorId.toString());
             // 为该用户添加一个submission记录
             stringRedisTemplate.opsForSet()
-                    .add("submissionList:" + authorId, submissionId.toString());
+                    .add("user:submit:" + authorId, submissionId.toString());
         }
-
     }
 }

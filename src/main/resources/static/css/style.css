@@ -3,7 +3,9 @@
 /*    margin: 0;*/
 /*    border:none;*/
 /*}*/
-
+body {
+    height: 95%;
+}
 .main {
     padding: 0 30% 0 30%;
 }
@@ -214,7 +216,12 @@
 }
 .listhref {
     text-decoration: none;
-    color: black
+    color: black;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 90%;
+    display: block;
+    white-space: nowrap;
 }
 .accept-abstract{
     padding: 10px 0 0 0;

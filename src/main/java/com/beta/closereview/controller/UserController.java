@@ -24,7 +24,7 @@ public class UserController {
     private SubmissionService submissionService;
 
     /**
-     * 用户登录。加载登录界面时自动请求发送校验码进行加密。
+     * 用户登录。加载登录界面时自动请求发送校验码进行加密
      * @param request
      * @return
      */

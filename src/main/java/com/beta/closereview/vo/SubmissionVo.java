@@ -16,6 +16,7 @@ public class SubmissionVo {
     private List<User> author;
     private String file;
     private String supportMaterial;
+    private Integer status;
     private Conference conference;
     private List<Comment> comments;
 }

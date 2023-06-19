@@ -1,6 +1,8 @@
 package com.beta.closereview.dao;
 
 import com.beta.closereview.SuperCloseReviewTest;
+import com.beta.closereview.pojo.Comment;
+import com.beta.closereview.pojo.User;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +13,7 @@ class CommentDaoTest extends SuperCloseReviewTest {
     @Resource
     private CommentDao commentDao;
     @Resource
-    private AuthorDao authorDao;
+    private UserDao userDao;
 
     @Test
     void getAuthors() {
@@ -27,12 +29,9 @@ class CommentDaoTest extends SuperCloseReviewTest {
 
     @Test
     void getComment() {
-        List<List<String>> commentsList = commentDao.getComment(15);
-
-        for (List<String> comments: commentsList){
-            for (String comment: comments)
-                System.out.println(comment);
-            System.out.println();
+        List<Comment> commentsList = commentDao.getComments(1);
+        for (Comment comment: commentsList){
+            System.out.println(comment);
         }
     }
 
@@ -42,16 +41,46 @@ class CommentDaoTest extends SuperCloseReviewTest {
         authors.add(78);
         authors.add(48);
         authors.add(46);
-        authorDao.addAuthor(15, authors);
+        userDao.addAuthor(15, authors);
     }
 
     @Test
     void addComment() {
-        List<String> comments = new ArrayList<>();
-        comments.add(String.valueOf(7));
-        comments.add("Started CommentDaoTest in 2.191 seconds (process running for 3.033)");
-        comments.add("Finished Spring Data repository scanning in 17 ms. Found 0 Redis repository interfaces.");
-        comments.add("No active profile set, falling back to 1 default profile: 'default'");
-        commentDao.addComment(15, comments);
+        List<Comment> comments = new ArrayList<>();
+        Comment comment = new Comment();
+        comment.setInitialComments(new ArrayList<>());
+        comment.getInitialComments().add("Started CommentDaoTest in 2.191 seconds (process running for 3.033)");
+        comment.getInitialComments().add("Finished Spring Data repository scanning in 17 ms. Found 0 Redis repository interfaces.");
+        comment.getInitialComments().add("No active profile set, falling back to 1 default profile: 'default'");
+        comment.setInitialScore(3);
+        comment.setReviewer(448);
+        comments.add(comment);
+
+        comment = new Comment();
+        comment.setInitialComments(new ArrayList<>());
+        comment.getInitialComments().add("SqlSession was not registered for synchronization because synchronization is not active");
+        comment.getInitialComments().add("Added connection com.mysql.cj.jdbc.ConnectionImpl@107b2e56");
+        comment.getInitialComments().add("An older version [1.2.36] of the Apache Tomcat Native library is installed");
+        comment.setInitialScore(4);
+        comment.setReviewer(90);
+        comments.add(comment);
+
+        comment = new Comment();
+        comment.setInitialComments(new ArrayList<>());
+        comment.getInitialComments().add("\"Medicine\" refers to the practice of non-operative medicine");
+        comment.getInitialComments().add("some specialties of medicine do not fit easily into either of these categories");
+        comment.setInitialScore(2);
+        comment.setReviewer(407);
+        comments.add(comment);
+
+        comment = new Comment();
+        comment.setInitialComments(new ArrayList<>());
+        comment.getInitialComments().add("class annotated with @DirtiesContext [false] with mode [null]");
+        comment.getInitialComments().add("DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener");
+        comment.setInitialScore(4);
+        comment.setReviewer(305);
+        comments.add(comment);
+
+        commentDao.addComment(7, comments);
     }
 }

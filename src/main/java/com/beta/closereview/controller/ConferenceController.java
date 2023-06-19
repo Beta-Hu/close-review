@@ -49,11 +49,19 @@ public class ConferenceController {
      * @param conferenceId 会议id
      * @return 登录用户在该会议提交的所有submission基本信息构成的列表
      */
-    @GetMapping("/active/{conferenceId}")
+    @GetMapping("/active/submissionList/{conferenceId}")
     public ResponseVo<List<SimplifiedSubmissionVo>> listSubmission(@PathVariable("conferenceId") Integer conferenceId,
                                                                    HttpSession session){
         User user = (User) session.getAttribute("user");
         List<SimplifiedSubmissionVo> submissionVos = submissionService.listSubmissions(conferenceId, user.getId());
+        return new ResponseVo<>(submissionVos);
+    }
+
+    @GetMapping("/active/reviewList/{conferenceId}")
+    public ResponseVo<List<SimplifiedSubmissionVo>> listReview(@PathVariable("conferenceId") Integer conferenceId,
+                                                                   HttpSession session){
+        User user = (User) session.getAttribute("user");
+        List<SimplifiedSubmissionVo> submissionVos = submissionService.listReviews(conferenceId, user.getId());
         return new ResponseVo<>(submissionVos);
     }
 }

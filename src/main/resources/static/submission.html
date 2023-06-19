@@ -12,7 +12,7 @@
             <img src="img/logo.png" class="logo">
         </div>
         <div class="divbutton">
-            <a class="profile">Profile<br></a>
+            <a class="profile" href="profile.html">Profile<br></a>
             <a class="sign" id="sign"></a>
         </div>
     </div>
@@ -84,6 +84,13 @@
                         for (var i = 0; i < data["data"]["author"].length; i++)
                             document.getElementById("authors").value +=
                                 data["data"]["author"][i]["username"] + "(" + data["data"]["author"][i]["email"] + "); ";
+
+                        if (data["data"]["status"] !== 0){
+                            document.getElementById("submission-id").setAttribute("readonly", "readonly");
+                            document.getElementById("title").setAttribute("readonly", "readonly");
+                            document.getElementById("authors").setAttribute("readonly", "readonly");
+                            document.getElementById("abstracts").setAttribute("readonly", "readonly");
+                        }
 
                         for (var i = 0; i < data["data"].length; i++) {
                             reviewerHead = "<li>\n" +

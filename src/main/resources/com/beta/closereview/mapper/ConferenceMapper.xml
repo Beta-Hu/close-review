@@ -26,9 +26,17 @@
         <include refid="Base_Column_List"/>
         from cr_conference
         where id in
-        <foreach collection="conferenceIds" index="index" item="item" open="(" close=")" separator=",">
-            #{item, jdbcType=INTEGER}
-        </foreach>
+        (
+            <if test="conferenceIds.size() == 0">-1</if>
+            <foreach collection="conferenceIds" index="index" item="item" separator=",">
+                #{item, jdbcType=INTEGER}
+            </foreach>
+        )
+        
+    </select>
+    <select id="listConferenceOfStatus" resultType="com.beta.closereview.pojo.Conference">
+        select * from cr_conference
+        where status = #{status, jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete

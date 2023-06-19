@@ -12,18 +12,28 @@
             <img src="img/logo.png" class="logo">
         </div>
         <div class="divbutton">
-            <a class="profile">Profile<br></a>
+            <a class="profile" href="profile.html">Profile<br></a>
             <a class="sign" id="sign"></a>
         </div>
     </div>
     <div class="bigholder"></div>
     <div class="smallholder"></div>
     <div class="horizonalbox">
-        <span class="bigfont" id="conference-name"></span>
+        <span class="bigfont">My Submissions</span>
         <button type="submit" name="button" class="submitbutton" onclick="createNewSubmission()">Add</button>
     </div>
     <div>
         <ul id="submission-list">
+        </ul>
+    </div>
+
+    <div class="bigholder"></div>
+    <div class="smallholder"></div>
+    <div class="horizonalbox">
+        <span class="bigfont">My Reviews</span>
+    </div>
+    <div>
+        <ul id="review-list">
         </ul>
     </div>
 </div>
@@ -43,24 +53,34 @@
     window.onload = function () {
         $.ajax({
             type: "GET",
-            url: "/conference/active/" + conferenceId,
+            url: "/conference/active/submissionList/" + conferenceId,
             dataType: 'json',
             async: true,
             data: {},
             success: function (data) {
                 var status = data["status"];
                 if (status === 0) {
+                    // 显示自己的submission
                     for (var i = 0; i < data["data"].length; i++) {
-                        document.getElementById("submission-list").innerHTML +=
-                            "<li class=\"item\">" +
-                            "<div class=\"horizonalbox\">" +
-                            "<a class='listhref' href='" + window.location.origin + "/submission.html?conferenceId=" + conferenceId + "&submissionId=" + data["data"][i]["id"] + " '>" +
-                            data["data"][i]["title"] + "</a>" +
-                            "<a class=\"smallhref\">withdraw</a>" +
-                            "</div>\n" +
-                            "</li> <div class=\"smallholder\"> </div>"
+                        if (data["data"][i]["role"] === 0)
+                            document.getElementById("submission-list").innerHTML +=
+                                "<li class=\"item\">" +
+                                "<div class=\"horizonalbox\">" +
+                                "<a class='listhref' href='" + window.location.origin + "/submission.html?conferenceId=" + conferenceId + "&submissionId=" + data["data"][i]["id"] + "'>" +
+                                data["data"][i]["title"] + "</a>" +
+                                "<a class=\"tinyhref\">withdraw</a>" +
+                                "</div>\n" +
+                                "</li> <div class=\"smallholder\"> </div>"
+                        else
+                            document.getElementById("review-list").innerHTML +=
+                                "<li class=\"item\">" +
+                                "<div class=\"horizonalbox\">" +
+                                "<a class='listhref' href='" + window.location.origin + "/review.html?conferenceId=" + conferenceId + "&submissionId=" + data["data"][i]["id"] + "'>" +
+                                data["data"][i]["title"] + "</a>" +
+                                "</div>\n" +
+                                "</li> <div class=\"smallholder\"> </div>"
                     }
-                    document.getElementById("conference-name").innerHTML = data["data"]["conference"]["name"];
+                    // document.getElementById("conference-name").innerHTML = data["data"]["conference"]["name"];
                 } else {
                     alert("please sign in first");
                 }
@@ -69,6 +89,13 @@
                 alert("error occurred");
             }
         });
+        $.ajax({
+            type: "GET",
+            url: "/conference/active/reviewList/" + conferenceId,
+            dataType: 'json',
+            async: true,
+            data: {},
+        })
     };
 
     function createNewSubmission() {

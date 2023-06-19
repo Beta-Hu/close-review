@@ -25,7 +25,7 @@
     </select>
     <select id="listAcceptedSubmissions" resultType="com.beta.closereview.vo.SimplifiedSubmissionVo">
         select * from cr_submission
-        where status = 1 and conference = #{conferenceId, jdbcType=INTEGER}
+        where status = 3 and conference = #{conferenceId, jdbcType=INTEGER}
     </select>
     <select id="listSubmissionBySids" resultType="com.beta.closereview.vo.SimplifiedSubmissionVo">
         select * from cr_submission
@@ -43,7 +43,7 @@
     </select>
     <select id="listPublicationBySids" resultType="com.beta.closereview.pojo.Submission">
         select * from cr_submission
-        where status = 1 and id in
+        where status = 3 and id in
         (
         <if test="submissionIds.size() == 0">-1</if>
         <foreach collection="submissionIds" item="item" index="index" separator=",">
@@ -179,5 +179,17 @@
             submit_time      = #{submitTime,jdbcType=TIMESTAMP},
             update_time      = #{updateTime,jdbcType=TIMESTAMP}
         where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateSubmissionStatus">
+        update cr_submission set status = #{targetStatus, jdbcType=INTEGER}
+        where status &lt; #{targetStatus, jdbcType=INTEGER}
+        and conference = #{conferenceId, jdbcType=INTEGER}
+    </update>
+    <update id="updateDecisionStatus">
+        <foreach collection="status" index="key" item="value" separator=";">
+            update cr_submission
+            set status = #{value}
+            where id = #{key}
+        </foreach>
     </update>
 </mapper>

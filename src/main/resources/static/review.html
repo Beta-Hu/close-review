@@ -23,6 +23,10 @@
     <div class="horizonalbox">
         <span class="bigfont" id="title"></span>
     </div>
+    <div class="horizonalbox">
+        <span class="bigfont" id="submission-id"></span>
+        <button id="submit" type="submit" name="button" class="submitbutton" onclick="submit()">Submit</button>
+    </div>
     <div>
         <ul>
             <li class="unsortedlist">
@@ -51,7 +55,6 @@
     <a id="icp" class="icp" style="color:#000; font-size: 8px" href="https://beian.miit.gov.cn/" target="_blank"></a>
 </p>
 
-
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/user-status.js"></script>
 <script type="text/javascript" src="js/bei-an.js"></script>
@@ -61,7 +64,7 @@
         submissionId = submissionId[submissionId.length - 1];
         $.ajax({
             type: "GET",
-            url: "/submission/accepted/" + submissionId,
+            url: "/submission/review/" + submissionId,
             dataType: 'json',
             async: true,
             data: {},
@@ -72,29 +75,27 @@
 
                 document.getElementById("title").innerHTML = "# " + data["data"]["id"] + " " + data["data"]["title"];
                 document.getElementById("abstracts").innerHTML = "Abstract: " + data["data"]["abstracts"];
-                document.getElementById("authors").innerHTML = "Author: ";
-                for (var i = 0; i < data["data"]["author"].length; i++)
-                    document.getElementById("authors").innerHTML +=
-                        data["data"]["author"][i]["username"] + "(" + data["data"]["author"][i]["email"] + "); ";
+
+                document.getElementById("title").setAttribute("readonly", "readonly");
+                document.getElementById("authors").setAttribute("readonly", "readonly");
+                document.getElementById("abstracts").setAttribute("readonly", "readonly");
 
                 if (status === 0) {
                     for (var i = 0; i < data["data"]["comments"].length; i++){
-                        reviewerHead = "<li>" +
-                        "<span class=\"smallfont\"># Reviewer " + i + "</span>" +
+                        reviewerHead = "<li>\n" +
+                        "<span class=\"bigfont\"># Reviewer " + i + "</span>" +
                         "<ul class=\"list\">";
 
                         if (data["data"]["comments"][i]["initialComments"] == null)
-                            continue;
+                            break;
 
                         var commentsOfReviewer = ""
                         for (var j = 0; j < data["data"]["comments"][i]["initialComments"].length; j++){
                             commentsOfReviewer +=
-                                "<li class=\"unsortedlist\">" +
-                                "<span class=\"tinyfont\">" +
-                                "Q" + (j + 1) + ": " + data["data"]["comments"][i]["initialComments"][j] +
-                                "</span>" +
-                                "<div class=\"smallholder\"></div>" +
-                                "</li>";
+                                "<li class='unsortedlist'>" +
+                                "<input type='text' name='input' class='textsubmission' id='q" + j + "' " +
+                                "value='" + data["data"]["comments"][i]["initialComments"][j] + "'>" +
+                                "<div class='smallholder'></div></li>";
                         }
 
                         reviewerTail = "</ul></li></ul>";
@@ -109,6 +110,39 @@
             }
         });
     };
+</script>
+<script>
+    function submit () {
+        var submissionId = parseInt(window.location.href.match(/submissionId=\d+/)[0].match(/\d+/)[0]);
+        var data = [];
+        for (var i = 0; ; i++){
+            if (document.getElementById("q" + i) != null)
+                data[data.length] = document.getElementById("q" + i).value;
+            else
+                break;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/submission/review/" + submissionId,
+            dataType: 'json',
+
+            async: true,
+            data: {
+                "submissionId": submissionId,
+                "initialComments": data,
+                "initialScore": 0,
+                "finalComments": "",
+                "finalScore": 0
+            },
+            success: function (data) {
+                if (data["status"] === 0)
+                    alert("submit successfully");
+                else
+                    alert("submit failed");
+            }
+        });
+    }
 </script>
 
 </html>

@@ -10,5 +10,6 @@ public class SimplifiedSubmissionVo {
     private Integer id;
     private String title;
     private String conferenceName;
+    private Integer role;
     private List<User> author;
 }
