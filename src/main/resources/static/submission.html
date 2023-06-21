@@ -9,7 +9,7 @@
 <div class="main">
     <div class="head ui-sortable-helper">
         <div class="divlogo">
-            <img src="img/logo.png" class="logo">
+            <img src="img/logo.png" class="logo" alt="">
         </div>
         <div class="divbutton">
             <a class="profile" href="profile.html">Profile<br></a>
@@ -28,18 +28,19 @@
     <div>
         <ul>
             <li class="unsortedlist">
+                <label for="title"></label>
                 <input type="text" name="input" class="textsubmission" value="" id="title"
-                       placeholder="Type your title here">
+                                                  placeholder="Type your title here">
                 <div class="smallholder"></div>
                 <div class="horizonalbox">
                     <input type="text" name="input" class="texttiny" value="" id="authors"
-                           placeholder="Type the email of authors here, use semicolon to seperate">
+                                                        placeholder="Type the email of authors here, use semicolon to seperate">
                     <a class="tinyhref">PDF</a>
                     <a class="tinyhref">SupportMaterial</a>
                     <a class="tinyhref">Rebuttal</a></div>
                 <div class="smallholder"></div>
-                <textarea name="textarea" class="textarea" id="abstracts"
-                      placeholder="Type your abstract here"></textarea>
+                <label for="abstracts"></label><textarea name="textarea" class="textarea" id="abstracts"
+                                                         placeholder="Type your abstract here"></textarea>
             </li>
         </ul>
     </div>

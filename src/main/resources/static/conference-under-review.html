@@ -26,6 +26,16 @@
         <ul id="submission-list">
         </ul>
     </div>
+
+    <div class="bigholder"></div>
+    <div class="smallholder"></div>
+    <div class="horizonalbox">
+        <span class="bigfont">My Reviews</span>
+    </div>
+    <div>
+        <ul id="review-list">
+        </ul>
+    </div>
 </div>
 </body>
 
@@ -61,7 +71,16 @@
                                 "<a class=\"tinyhref\">withdraw</a>" +
                                 "</div>\n" +
                                 "</li> <div class=\"smallholder\"> </div>"
+                        else
+                            document.getElementById("review-list").innerHTML +=
+                                "<li class=\"item\">" +
+                                "<div class=\"horizonalbox\">" +
+                                "<a class='listhref' href='" + window.location.origin + "/review.html?conferenceId=" + conferenceId + "&submissionId=" + data["data"][i]["id"] + "'>" +
+                                data["data"][i]["title"] + "</a>" +
+                                "</div>\n" +
+                                "</li> <div class=\"smallholder\"> </div>"
                     }
+                    // document.getElementById("conference-name").innerHTML = data["data"]["conference"]["name"];
                 } else {
                     alert("please sign in first");
                 }
@@ -83,5 +102,6 @@
         window.location.href = window.location.origin + "/submission.html?conferenceId=" + conferenceId + "&submissionId=0&newSubmission";
     }
 </script>
+
 
 </html>

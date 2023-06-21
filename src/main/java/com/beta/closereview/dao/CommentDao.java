@@ -6,10 +6,7 @@ import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -29,6 +26,21 @@ public class CommentDao {
 
         return entries.values().stream()
                 .map(j -> gson.fromJson((String) j, Comment.class)).collect(Collectors.toList());
+    }
+
+    /**
+     * 获取单个submission的所有reviewer的comments
+     * @param submissionIds 某个会议中所有submission的id列表
+     * @return 该conference下所有submission的所有comments。每个reviewer的comments构成一个内层列表，所有reviewer构成外层列表
+     */
+    public Map<Object, Object> getAllCommentsBySubmissionIds(List<Integer> submissionIds){
+        Map<Object, Object> finalScores = new HashMap<>();
+
+        for (Integer sid: submissionIds) {
+            finalScores.put(sid, stringRedisTemplate.opsForHash()
+                        .entries("submission:comment:" + sid));
+        }
+        return finalScores;
     }
 
     /**

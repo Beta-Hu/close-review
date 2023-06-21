@@ -22,6 +22,8 @@ public interface SubmissionMapper {
 
     List<SimplifiedSubmissionVo> listAcceptedSubmissions(Integer conferenceId);
 
+    List<Integer> listSubmissionIdsOfConference(Integer conferenceId);
+
     List<SimplifiedSubmissionVo> listSubmissionBySids(@Param("conferenceId") Integer conferenceId,
                                                       @Param("submissionIds") List<Integer> submissionIds);
     List<Submission> listPublicationBySids(@Param("submissionIds") List<Integer> submissionIds);

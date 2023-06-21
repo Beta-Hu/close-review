@@ -9,7 +9,7 @@
 <div class="main">
     <div class="head ui-sortable-helper">
         <div class="divlogo">
-            <img src="img/logo.png" class="logo">
+            <img src="img/logo.png" class="logo" alt="">
         </div>
         <div class="divbutton">
             <a class="profile" href="profile.html">Profile<br></a>
@@ -19,13 +19,27 @@
     <div class="bigholder"> </div>
     <div class="smallholder"> </div>
     <div class="horizonalbox">
-        <input type="text" name="input" class="textsearch">
+        <label>
+            <input type="text" name="input" class="textsearch">
+        </label>
         <input type="submit" name="button"  value="" class="smallbutton">
     </div>
     <div class="smallholder"> </div>
     <div class="detail">
         <span class="bigfont">Active Conference</span>
-        <ul id="ul-active">
+        <ul id="ul-submit">
+        </ul>
+    </div>
+    <div class="smallholder"> </div>
+    <div class="detail">
+        <span class="bigfont">Under Review</span>
+        <ul id="ul-review">
+        </ul>
+    </div>
+    <div class="smallholder"> </div>
+    <div class="detail">
+        <span class="bigfont">Under Rebuttal</span>
+        <ul id="ul-decision">
         </ul>
     </div>
     <div class="smallholder">
@@ -64,8 +78,20 @@
                                 "<a class='listhref'  href='" + window.location.origin + "/conference-inactive.html?conferenceId=" + data["data"][i]["id"] + "'>" +
                                 data["data"][i]["name"] + " (" + data["data"][i]["acronym"] + data["data"][i]["year"] + ")"
                                 + "</a></li><div class=\"smallholder\"> </div>"
+                        else if (data["data"][i]["status"] === 2)
+                            document.getElementById("ul-decision").innerHTML +=
+                                "<li class=\"item\">" +
+                                "<a class='listhref'  href='" + window.location.origin + "/conference-active.html?conferenceId=" + data["data"][i]["id"] + "'>" +
+                                data["data"][i]["name"] + " (" + data["data"][i]["acronym"] + data["data"][i]["year"] + ")"
+                                + "</a></li><div class=\"smallholder\"> </div>"
+                        else if (data["data"][i]["status"] === 1)
+                            document.getElementById("ul-review").innerHTML +=
+                                "<li class=\"item\">" +
+                                "<a class='listhref'  href='" + window.location.origin + "/conference-under-review.html?conferenceId=" + data["data"][i]["id"] + "'>" +
+                                data["data"][i]["name"] + " (" + data["data"][i]["acronym"] + data["data"][i]["year"] + ")"
+                                + "</a></li><div class=\"smallholder\"> </div>"
                         else
-                            document.getElementById("ul-active").innerHTML +=
+                            document.getElementById("ul-submit").innerHTML +=
                                 "<li class=\"item\">" +
                                 "<a class='listhref'  href='" + window.location.origin + "/conference-active.html?conferenceId=" + data["data"][i]["id"] + "'>" +
                                 data["data"][i]["name"] + " (" + data["data"][i]["acronym"] + data["data"][i]["year"] + ")"

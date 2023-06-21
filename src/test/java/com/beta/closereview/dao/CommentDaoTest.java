@@ -1,19 +1,28 @@
 package com.beta.closereview.dao;
 
 import com.beta.closereview.SuperCloseReviewTest;
+import com.beta.closereview.mapper.ConferenceMapper;
+import com.beta.closereview.mapper.SubmissionMapper;
 import com.beta.closereview.pojo.Comment;
+import com.beta.closereview.pojo.Submission;
 import com.beta.closereview.pojo.User;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 class CommentDaoTest extends SuperCloseReviewTest {
     @Resource
     private CommentDao commentDao;
     @Resource
     private UserDao userDao;
+    @Resource
+    private SubmissionMapper submissionMapper;
+    @Resource
+    private ConferenceMapper conferenceMapper;
 
     @Test
     void getAuthors() {
@@ -82,5 +91,15 @@ class CommentDaoTest extends SuperCloseReviewTest {
         comments.add(comment);
 
         commentDao.addComment(7, comments);
+    }
+
+    @Test
+    void getAllCommentsBySubmissionIds() {
+        List<Integer> ids = submissionMapper.listSubmissionIdsOfConference(6);
+
+        Map<Object, Object> finalScores = commentDao.getAllCommentsBySubmissionIds(ids);
+
+        for (Map.Entry<Object, Object> m: finalScores.entrySet())
+            System.out.println(m.getKey() + ": " + m.getValue());
     }
 }

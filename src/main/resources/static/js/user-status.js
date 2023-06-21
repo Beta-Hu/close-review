@@ -2,7 +2,7 @@ void function (){
     var user = sessionStorage.getItem("user");
     if (user != null) {
         // todo: 完成退出页面
-        document.getElementById("sign").setAttribute("href", "#");
+        document.getElementById("sign").setAttribute("href", window.location.href);
         document.getElementById("sign").onclick =
             function (){
                 $.ajax({
@@ -14,7 +14,6 @@ void function (){
                     success: function (data) {
                         if (data["status"] === 0) {
                             sessionStorage.removeItem("user");
-                            document.location.href = window.location.href;
                         }
                     }
                 })

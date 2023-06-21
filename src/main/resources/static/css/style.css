@@ -241,3 +241,9 @@ body {
     word-break: break-all;
     white-space: normal;
 }
+.scoreSelector {
+    height: 32px;
+    width: 64px;
+    border: rgba(237, 237, 237, 1) solid 2px;
+    border-radius: 5px 5px 5px 5px;
+}

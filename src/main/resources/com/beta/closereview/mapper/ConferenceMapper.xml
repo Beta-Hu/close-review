@@ -36,7 +36,13 @@
     </select>
     <select id="listConferenceOfStatus" resultType="com.beta.closereview.pojo.Conference">
         select * from cr_conference
-        where status = #{status, jdbcType=INTEGER}
+        where status in
+        (
+            <if test="statuses.size() == 0">-1</if>
+            <foreach collection="statuses" item="item" index="index" separator=",">
+                #{item, jdbcType=INTEGER}
+            </foreach>
+        )
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete

@@ -10,7 +10,7 @@
 <div class="main">
     <div class="head ui-sortable-helper">
         <div class="divlogo">
-            <img src="img/logo.png" class="logo">
+            <img src="img/logo.png" class="logo" alt="">
         </div>
 <!--        <div class="divbutton">-->
 <!--            <a class="profile">Profile<br></a>-->
@@ -24,10 +24,14 @@
         <form id="form"  onsubmit="return false">
             <div class="smallholder"></div>
             <span class="bigfont">Email</span>
-            <input type="text" name="email" class="textinput">
+            <label>
+                <input type="text" name="email" class="textinput">
+            </label>
             <div class="smallholder"></div>
             <span class="bigfont">Password</span>
-            <input type="password" name="password" class="textinput">
+            <label>
+                <input type="password" name="password" class="textinput">
+            </label>
             <div class="smallholder"></div>
             <div class="divbuttonlist">
                 <button type="submit" id="button" class="button">Sign in</button>

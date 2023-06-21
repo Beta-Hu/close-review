@@ -51,6 +51,10 @@
         </foreach>
         )
     </select>
+    <select id="listSubmissionIdsOfConference" resultType="java.lang.Integer">
+        select id from cr_submission
+        where conference = #{conferenceId, jdbcType=INTEGER}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from cr_submission

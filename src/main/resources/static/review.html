@@ -9,7 +9,7 @@
 <div class="main">
     <div class="head ui-sortable-helper">
         <div class="divlogo">
-            <img src="img/logo.png" class="logo">
+            <img src="img/logo.png" class="logo" alt="">
         </div>
         <div class="divbutton">
             <a class="profile" href="profile.html">Profile<br></a>
@@ -45,6 +45,62 @@
     <div class="bigholder"></div>
     <div>
         <ul class="list" id="reviewer">
+            <li>
+                <div class='smallholder'></div>
+                <label>Initial Comments: </label>
+                <div class='smallholder'></div>
+            </li>
+            <li class='unsortedlist'>
+                <input type='text' name='input' class='textsubmission' id='q0' value=''>
+                <div class='smallholder'></div>
+            </li>
+            <li class='unsortedlist'>
+                <input type='text' name='input' class='textsubmission' id='q1' value=''>
+                <div class='smallholder'></div>
+            </li>
+            <li class='unsortedlist'>
+                <input type='text' name='input' class='textsubmission' id='q2' value=''>
+                <div class='smallholder'></div>
+            </li>
+            <li class='unsortedlist'>
+                <input type='text' name='input' class='textsubmission' id='q3' value=''>
+                <div class='smallholder'></div>
+            </li>
+            <li class='unsortedlist'>
+                <input type='text' name='input' class='textsubmission' id='q4' value=''>
+                <div class='smallholder'></div>
+            </li>
+            <li class='unsortedlist'>
+                <label for='initialScore'>Initial Score: </label><select name='initialScore' class='scoreSelector' id='initialScore'>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                </select>
+                <div class='smallholder'></div>
+            </li>
+
+            <li>
+                <div class="bigholder"></div>
+                <div class="smallholder"></div>
+                <label>Final Comments:</label>
+                <div class='smallholder'></div>
+            </li>
+            <li class='unsortedlist'>
+                <input type='text' name='input' class='textsubmission' id='finalComments' value=''>
+                <div class='smallholder'></div>
+            </li>
+            <li class='unsortedlist'>
+                <label for='finalScore'>Final Score: </label><select name='finalScore' class='scoreSelector' id='finalScore'>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+                <div class='smallholder'></div>
+            </li>
         </ul>
     </div>
 </div>
@@ -70,8 +126,6 @@
             data: {},
             success: function (data){
                 var status = data["status"];
-                var reviewerHead;
-                var reviewerTail;
 
                 document.getElementById("title").innerHTML = "# " + data["data"]["id"] + " " + data["data"]["title"];
                 document.getElementById("abstracts").innerHTML = "Abstract: " + data["data"]["abstracts"];
@@ -82,26 +136,35 @@
 
                 if (status === 0) {
                     for (var i = 0; i < data["data"]["comments"].length; i++){
-                        reviewerHead = "<li>\n" +
-                        "<span class=\"bigfont\"># Reviewer " + i + "</span>" +
-                        "<ul class=\"list\">";
 
-                        if (data["data"]["comments"][i]["initialComments"] == null)
-                            break;
+                        if (data["data"]["comments"][i]["initialComments"] != null)
+                            for (var j = 0; j < data["data"]["comments"][i]["initialComments"].length; j++) {
+                                document.getElementById("q" + j).setAttribute("value", data["data"]["comments"][i]["initialComments"][j]);
+                                if (data["data"]["status"] !== 1)
+                                    document.getElementById("q" + j).setAttribute("readonly", "readonly");
+                            }
 
-                        var commentsOfReviewer = ""
-                        for (var j = 0; j < data["data"]["comments"][i]["initialComments"].length; j++){
-                            commentsOfReviewer +=
-                                "<li class='unsortedlist'>" +
-                                "<input type='text' name='input' class='textsubmission' id='q" + j + "' " +
-                                "value='" + data["data"]["comments"][i]["initialComments"][j] + "'>" +
-                                "<div class='smallholder'></div></li>";
+                        if (data["data"]["comments"][i]["initialScore"] != null) {
+                            for (var j = 1; j <= 5; j++)
+                                if (document.getElementById("initialScore")[j - 1].value === data["data"]["comments"][i]["initialScore"] + '')
+                                    document.getElementById("initialScore")[j - 1].selected = true;
+                            if (data["data"]["status"] !== 1)
+                                document.getElementById("initialScore").setAttribute("disabled", "disabled");
                         }
 
-                        reviewerTail = "</ul></li></ul>";
+                        if (data["data"]["comments"][i]["finalComments"] != null) {
+                            document.getElementById("finalComments").setAttribute("value", data["data"]["comments"][i]["finalComments"]);
+                            if (data["data"]["status"] !== 2)
+                                document.getElementById("finalComments").setAttribute("readonly", "readonly");
+                        }
 
-                        document.getElementById("reviewer").innerHTML +=
-                            reviewerHead + commentsOfReviewer + reviewerTail;
+                        if (data["data"]["comments"][i]["finalScore"] != null) {
+                            for (var j = 1; j <= 5; j++)
+                                if (document.getElementById("finalScore")[j - 1].value === data["data"]["comments"][i]["finalScore"] + '')
+                                    document.getElementById("finalScore")[j - 1].selected = true;
+                            if (data["data"]["status"] !== 2)
+                                document.getElementById("finalScore").setAttribute("disabled", "disabled");
+                        }
                     }
                 }
             },
@@ -131,9 +194,9 @@
             data: {
                 "submissionId": submissionId,
                 "initialComments": data,
-                "initialScore": 0,
+                "initialScore": $("#initialScore option:selected").val(),
                 "finalComments": "",
-                "finalScore": 0
+                "finalScore": $("#finalScore option:selected").val(),
             },
             success: function (data) {
                 if (data["status"] === 0)

@@ -21,5 +21,5 @@ public interface ConferenceMapper {
 
     List<Conference> listConferenceByCids(List<Integer> conferenceIds);
 
-    List<Conference> listConferenceOfStatus(Integer status);
+    List<Conference> listConferenceOfStatus(List<Integer> statuses);
 }
